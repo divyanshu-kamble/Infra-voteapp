@@ -1,14 +1,16 @@
 pipeline {
-    agent any
-     stage("terrafrom script") {
-       steps{
-         withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
-              sh '''
-                  cd Terraform
-                  pwd
-                  terrafrom --version
-              '''
+  agent any
+     stages {
+        stage('terrafrom script') {
+            steps {
+                withCredentials([$class: 'AmazonWebServicesCredentialsBinding',(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '${AWS_ACCOUNT}')]) {
+                    sh '''
+                        cd Terraform
+                        pwd
+                        terrafrom --version
+                    '''
           }
-        }
+       }
     }
   }
+}
