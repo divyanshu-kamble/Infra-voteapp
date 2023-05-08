@@ -8,6 +8,8 @@ pipeline {
                         cd Terraform
                         pwd
                         terraform -v
+                        terraform init
+                        terraform plan
 
                     '''
           }
