@@ -3,7 +3,7 @@ pipeline {
      stages {
         stage('terrafrom script') {
             steps {
-                withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '${AWS-1}')]) {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')]) {
                     sh '''
                         cd Terraform
                         pwd
