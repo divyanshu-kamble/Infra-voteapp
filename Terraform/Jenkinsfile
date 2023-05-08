@@ -10,6 +10,7 @@ pipeline {
                         terraform -v
                         terraform init
                         terraform plan
+                        terraform apply
 
                     '''
           }
