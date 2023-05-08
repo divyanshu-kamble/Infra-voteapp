@@ -9,8 +9,8 @@ pipeline {
                         pwd
                         terraform -v
                         terraform init
-                        terraform plan
-                        terraform apply
+                        terraform plan -input=false -out tfplan
+                        terraform apply -input=false tfplan
 
                     '''
           }
