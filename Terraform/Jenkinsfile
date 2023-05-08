@@ -5,6 +5,7 @@ pipeline {
             steps{
                 withCredentials([amazonWebServicesCredentials(credentialsId: 'AWS-1', accessKeyVariable:'AWS_ACCESS_KEY_ID', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')])
                 sh '''
+                cd Terraform
                 terraform init
                 terraform plan
                 '''
