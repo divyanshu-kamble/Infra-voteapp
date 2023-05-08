@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    stages {
+        stage(executing terraform script) {
+            steps{
+                sh '''
+                tf init
+                tf plan
+                '''
+
+            }
+        }
+    }
+}
