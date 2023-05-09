@@ -14,18 +14,21 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+resource "aws_key_pair" "testing" {
+  public_key = file("~/.ssh/id_rsa.pub")
+  key_name = "testing-test"
+}
+
 resource "aws_instance" "app_server" {
   ami           = "ami-007855ac798b5175e"
   instance_type = "t2.micro"
   vpc_security_group_ids = ["sg-0215d43840f30b7f2"]
   subnet_id              = "subnet-0ec8047a99bd220b4" 
-
-}
-
-resource "aws_key_pair" "testing" {
-  public_key = file("~/.ssh/id_rsa")
   key_name = "testing-test"
+
 }
+
+
 
 # resource "local_file" "app_server" {
 #     content  = aws_instance.app_server.public_ip
