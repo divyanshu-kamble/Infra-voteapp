@@ -1,5 +1,7 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'instance_public_ip', defaultValue: '', description: 'git ')}
     stages {
         stage('creating inventory file') {
             
@@ -7,7 +9,7 @@ pipeline {
                 script{
                     def ec2inventory = "myinventory\n"
                     ec2inventory += "[app_server]\n"
-                    ec2inventory += "ansible_host=${env.INSTANCE_IP} ansible_user=ubuntu\n"
+                    ec2inventory += "${params.instance_public_ip} ansible_user=ubuntu\n"
 
                     writeFile file: 'Ansible-script/ec2inventory', text: ec2inventory
                 }
