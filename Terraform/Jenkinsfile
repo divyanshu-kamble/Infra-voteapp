@@ -14,12 +14,11 @@ pipeline {
                         terraform init
                         terraform plan -input=false -out tfplan
                         terraform apply -input=false tfplan
-                        terraform output -raw instance_ip
 
                     '''
 
                     script {
-                      INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+                      INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip')
                     }
 
                     
