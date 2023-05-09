@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+        INSTANCE_IP = ''
+      }
      stages {
         stage('terrafrom script') {
             steps {
@@ -16,7 +19,7 @@ pipeline {
                     '''
 
                     script {
-                      env.INSTANCE_IP = sh(script: 'terraform output -raw instance_ip', returnStdout: true).trim()
+                      INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
                     }
 
                     

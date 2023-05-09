@@ -28,6 +28,10 @@ resource "aws_instance" "app_server" {
 
 }
 
+output "instance_public_ip" {
+  value = aws_instance.app_server.public_ip
+}
+
 
 
 # resource "local_file" "app_server" {
