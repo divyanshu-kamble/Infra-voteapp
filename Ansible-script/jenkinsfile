@@ -4,14 +4,13 @@ pipeline {
         stage('creating inventory file') {
             
             steps{
-                sh '''
-                    cd Ansible-script
-                    ec2inventory = "myinventory\n"
-                    ec2inventory += "[app_server]\n"
-                    ec2inventory += "webserver1 ansible_host=${env.INSTANCE_IP} ansible_user=ubuntu\n"
+                
+                def ec2inventory = "myinventory\n"
+                ec2inventory += "[app_server]\n"
+                ec2inventory += "webserver1 ansible_host=${env.INSTANCE_IP} ansible_user=ubuntu\n"
 
-                    writeFile file: 'ec2inventory', text: ec2inventory
-                '''
+                writeFile file: 'Ansible-script/ec2inventory', text: ec2inventory
+            
             }
         }
             
