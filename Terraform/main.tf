@@ -21,3 +21,30 @@ resource "aws_instance" "app_server" {
   subnet_id              = "subnet-0ec8047a99bd220b4" 
 
 }
+
+resource "aws_key_pair" "testing" {
+  public_key = file("~/.ssh/id_rsa")
+  key_name = "testing-test"
+}
+
+# resource "local_file" "app_server" {
+#     content  = aws_instance.app_server.public_ip
+#     filename = "app_server.txt"
+
+# }
+
+# resource "github_repository_file" "example" {
+#   repository = "divyanshu-kamble/infra_voteapp"
+#   branch     = "YOUT-17-Create-EC2-instance-with-Terraform"
+#   file       = "./Ansible-script/"
+#   content    = file("app_server.txt")
+#   message    = "Add new file from local source"
+# }
+# resource "github_repository_file" "workflow_assign_issues" {
+#   repository          = infra_voteapp
+#   branch              = "YOUT-17-Create-EC2-instance-with-Terraform"
+#   commit_message      = "modified inventory file"
+#   overwrite_on_create = true
+#   file                = ".github/workflows/organize-assign-issues.yml"
+#   content             = data.local_file.workflow_assign_issues.content
+# }

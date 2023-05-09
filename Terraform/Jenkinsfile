@@ -13,6 +13,10 @@ pipeline {
                         terraform apply -input=false tfplan
 
                     '''
+
+                    script {
+                      env.INSTANCE_IP = sh(script: 'terraform output -raw instance_ip', returnStdout: true).trim()
+                    }
           }
        }
     }
