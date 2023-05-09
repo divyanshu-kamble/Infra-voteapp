@@ -1,7 +1,7 @@
 ---
 
 - name: CI tools installation/configuration
-  hosts: jenkins-user
+  hosts: app_server
   become: true
   vars_files: 
    - vars/all.yaml 
