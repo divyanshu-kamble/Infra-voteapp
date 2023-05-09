@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'instance_public_ip', defaultValue: '', description: 'git ')}
+        string(name: 'instance_public_ip', defaultValue: '', description: 'Public IP address of the EC2 instance')}
     stages {
         stage('creating inventory file') {
             
