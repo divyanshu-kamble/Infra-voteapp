@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    stages {
+        stage('creating inventory file') {
+            
+            steps{
+                sh '''
+                    cd Ansible-script
+                    def inventory = "myinventory\n"
+                    inventory += "[app_server]\n"
+                    inventory += "webserver1 ansible_host=${env.INSTANCE_IP} ansible_user=ubuntu\n"
+
+                    writeFile file: 'inventory', text: ec2inventory
+                '''
+            }
+        }
+            
+        stage('executing ansible script') {
+            
+            steps{
+                sh '''
+                cd Ansible-script
+                ansible-playbook main.yml -i ec2inventory
+                '''
+            }
+        }
+    }
+}
+

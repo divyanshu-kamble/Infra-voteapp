@@ -1,0 +1,49 @@
+--- 
+
+   - name: "nvm"
+     become: yes
+     become_user: ubuntu
+     shell: >
+      curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+     args:
+      executable: /bin/bash
+      chdir: "/home/ubuntu"
+      creates: "/home/ubuntu/.nvm/nvm.sh"  
+
+  
+   - name: Source nvm in ~/.{{ item }}
+     lineinfile: >
+        dest=~/.{{ item }}
+        line=". ~/.nvm/nvm.sh"
+        create=yes
+     tags: nvm
+     with_items:
+      - bashrc
+      - profile
+
+   - name: Install node and set version
+     become: yes
+     become_user: ubuntu
+     shell: ". ~/.{{ item }}"
+     args:
+      executable: /bin/bash
+     with_items:
+       - bashrc
+       - profile
+
+   - name: "nvm checking"
+     become: yes
+     become_user: root
+     shell: echo "PATH=$PATH:/home/ubuntu/.nvm" > /etc/environment
+     args:
+       executable: /bin/bash
+
+   - name: Test NVM and check/install node ver 18.0
+     become: yes
+     become_user: ubuntu
+     shell: |
+       . /home/ubuntu/.nvm/nvm.sh && nvm -v || true
+       nvm install 18.0.0 || true
+       node --version  || true
+     args:
+      executable: /bin/bash
