@@ -30,8 +30,8 @@ resource "aws_instance" "app_server" {
 
 data "aws_security_groups" "test" {
 
-  tags {
-    Name = "tf-deploy"
+  tags = {
+    name = "tf-deploy"
   }
 }
 
