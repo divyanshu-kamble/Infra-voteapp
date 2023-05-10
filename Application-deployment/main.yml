@@ -1,0 +1,8 @@
+---
+
+- name: Deploy Voting Application
+  hosts: app_server
+  become: true
+  tasks:
+    name: Run Deployment script
+    command: echo "yes" | deployment.sh
