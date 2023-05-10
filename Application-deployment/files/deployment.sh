@@ -5,7 +5,7 @@
 # if yes then first rm -f the running container and then run the remaining container
 #
 
-containers=("redis" "vote" "worker" "result" "postgres")
+containers=("redis" "postgres" "vote" "worker" "result" )
 counter=0 
 #if counter value is zero then no application is not running if greater than zero then it is
 #  also check if the output is empty or not var=$(docker ps --filter "name=$i" --format={{.Names}}) [[ -n $var ]]; then
