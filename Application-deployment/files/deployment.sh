@@ -12,7 +12,7 @@ counter=0
 
 
 for c in "${containers[@]}"; do
-    var=$(docker ps -a --filter "name=$c" --format={{.Names}})
+    var=$(docker ps --filter "name=$c" --format={{.Names}})
     #if the output of the variable is not null then the counter will increment 
     if [[ -n $var ]]; then
         counter+=1
@@ -32,7 +32,7 @@ if [[ "$task" == "yes" ]]; then
 # loop in the list again and remove the containers which are running
     for i in "${containers[@]}"; do 
 
-        var=$(docker ps --filter "name=$i" --format={{.Names}})
+        var=$(docker ps -a --filter "name=$i" --format={{.Names}})
 
         if [[ -n $var ]]; then
             echo "text para"
