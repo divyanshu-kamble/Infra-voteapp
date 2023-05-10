@@ -42,15 +42,15 @@ if [[ "$task" == "yes" ]]; then
 
     done
 
-    docker start -d -h redis -p 6379:6379 --name redis redis:latest
+    docker run -d -h redis -p 6379:6379 --name redis redis:latest
     # postgres container
-    docker start -d -h db --name postgres -e POSTGRES_DB=db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15-alpine
+    docker run -d -h db --name postgres -e POSTGRES_DB=db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15-alpine
     # vote container
-    docker start -d -p 5000:80 --link redis --name vote divyanshuk/vote:latest
+    docker run -d -p 5000:80 --link redis --name vote divyanshuk/vote:latest
     # worker container
-    docker start -d --link postgres --link redis --name worker divyanshuk/worker:latest
+    docker run -d --link postgres --link redis --name worker divyanshuk/worker:latest
     # result container
-    docker start -d -p 5001:80 --link postgres --name result divyanshuk/result:latest
+    docker run -d -p 5001:80 --link postgres --name result divyanshuk/result:latest
 
 # by the input we are removing the running containers 
 elif [[ "$task" == stop ]]; then
