@@ -8,8 +8,14 @@
       docker_login:
         username: "{{ username }}"
         password: "{{ password }}"
+    
+    -name: check dir
+     shell: pwd
+     
+    - name: Transfer executable script script
+      copy: src=./files/deployment.sh dest=/opt/ mode=0777
 
     - name: Run Deployment script
       shell: |
-        cd files
+        cd /opt/
         echo "yes" | deployment.sh
