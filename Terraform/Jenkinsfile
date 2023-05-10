@@ -1,30 +1,50 @@
 pipeline {
   agent any
-  environment {
-        INSTANCE_IP = ''
+  stages {
+    stage('terraform script') {
+      steps {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')]) {
+          sh '''
+            cd Terraform
+            pwd
+            terraform -v
+            terraform init
+            terraform plan -input=false -out tfplan
+            terraform apply -input=false tfplan
+          '''
+        }
       }
-     stages {
-        stage('terrafrom script') {
-            steps {
-                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')]) {
-                    sh '''
-                        cd Terraform
-                        pwd
-                        terraform -v
-                        terraform init
-                        terraform plan -input=false -out tfplan
-                        terraform apply -input=false tfplan
-                      
-
-                    '''
-
-                    script {
-                      INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip')
-                    }
-
-                    
-          }
-       }
     }
-  }
-}
+    stage('setting env variable') {
+      steps {
+        dir('Terraform'){
+          script{
+            env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+            }
+        sh "echo ${INSTANCE_IP}"
+        }
+        
+      }
+    }
+
+    stage('Environment variable value') {
+      steps {
+        sh 'echo ${INSTANCE_IP}'
+            }
+          }
+    stage('Build job trigger') {
+      steps {
+        build job: 'ansible-configuration', parameters: [
+            string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
+          ]
+      }
+    }
+        }
+
+    }
+
+
+         
+          // build job: 'ansible-configuration', parameters: [
+          //   string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
+          // ]

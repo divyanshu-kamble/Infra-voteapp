@@ -21,7 +21,7 @@ pipeline {
             steps{
                 sh '''
                 cd Ansible-script
-                ansible-playbook main.yml -i ec2inventory
+                ansible-playbook main.yml -i ec2inventory -vvv
                 '''
             }
         }
