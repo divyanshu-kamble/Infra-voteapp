@@ -6,8 +6,8 @@
   tasks:
     - name: Log into DockerHub
       docker_login:
-      username: "{{ username }}"
-      password: "{{ password }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
 
     - name: Run Deployment script
       command: echo "yes" | deployment.sh
