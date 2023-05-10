@@ -32,9 +32,16 @@ pipeline {
         sh 'echo ${INSTANCE_IP}'
             }
           }
-    stage('Build job trigger') {
+    stage('Build job Ansible trigger') {
       steps {
         build job: 'ansible-configuration', parameters: [
+            string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
+          ]
+      }
+    }
+    stage('Build job Deployment trigger') {
+      steps {
+        build job: 'Application-deployment', parameters: [
             string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
           ]
       }
