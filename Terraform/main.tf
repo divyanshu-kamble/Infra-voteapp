@@ -56,7 +56,7 @@ resource "aws_security_group_rule" "public_out" {
 
 }
 
-resource "aws_security_group_rule" "public_out" {
+resource "aws_security_group_rule" "result" {
 
   type        = "ingress"
 
