@@ -51,7 +51,8 @@ resource "aws_security_group_rule" "public_out" {
 
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = data.aws_security_groups.test.ids
+  security_group_id = element(tolist(data.aws_security_groups.test.ids), 0)
+  
 
 }
 
