@@ -4,5 +4,10 @@
   hosts: app_server
   become: true
   tasks:
-    name: Run Deployment script
-    command: echo "yes" | deployment.sh
+    - name: Log into DockerHub
+      docker_login:
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+    - name: Run Deployment script
+      command: echo "yes" | deployment.sh
