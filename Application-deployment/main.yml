@@ -10,6 +10,6 @@
         password: "{{ password }}"
 
     - name: Run Deployment script
-      command: |
-        cd /files
+      shell: |
+        cd files
         echo "yes" | deployment.sh
