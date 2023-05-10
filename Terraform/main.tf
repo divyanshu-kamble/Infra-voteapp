@@ -30,9 +30,8 @@ resource "aws_instance" "app_server" {
 
 data "aws_security_groups" "test" {
 
-  filter {
-    name   = "Name"
-    values = ["tf-deploy"]
+  tags {
+    Name = "tf-deploy"
   }
 }
 
