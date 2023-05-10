@@ -31,10 +31,13 @@ resource "aws_instance" "app_server" {
 data "aws_security_groups" "test" {
 
   tags = {
-    name = "tf-deploy"
+    Name = "tf-deploy"
   }
 }
 
+output "security_group_id" {
+  value = data.aws_security_groups.test.ids
+}
 
 resource "aws_security_group_rule" "public_out" {
 
@@ -48,7 +51,7 @@ resource "aws_security_group_rule" "public_out" {
 
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id ="${data.aws_security_groups.test.ids}"
+  security_group_id = data.aws_security_groups.test.ids
 
 }
 
