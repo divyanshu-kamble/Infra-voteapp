@@ -18,4 +18,6 @@
     - name: Run Deployment script
       shell: |
         cd /opt/
-        echo "yes" | deployment.sh
+        pwd
+        ls
+        echo "yes" | ./deployment.sh
