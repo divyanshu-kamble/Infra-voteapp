@@ -28,6 +28,31 @@ resource "aws_instance" "app_server" {
 
 }
 
+data "aws_security_groups" "test" {
+
+  filter {
+    name   = "Name"
+    values = ["tf-deploy"]
+  }
+}
+
+
+resource "aws_security_group_rule" "public_out" {
+
+  type        = "ingress"
+
+  from_port   = 5000
+
+  to_port     = 5000
+
+  protocol    = "http"
+
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_group_id = data.aws_security_groups.test.id
+
+}
+
 output "instance_public_ip" {
   value = aws_instance.app_server.public_ip
 }
