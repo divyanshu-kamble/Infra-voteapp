@@ -11,5 +11,5 @@
 
     - name: Run Deployment script
       command: |
-        cd /Application-deployment/files
-        echo"yes" | deployment.sh
+        cd /files
+        echo "yes" | deployment.sh
