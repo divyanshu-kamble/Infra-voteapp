@@ -16,7 +16,7 @@ provider "aws" {
 
 resource "aws_key_pair" "testing" {
   public_key = file("~/.ssh/id_rsa.pub")
-  key_name = "akamble@CAI1150LT00057.local"
+  key_name = "testing-test"
 }
 
 resource "aws_instance" "app_server" {
