@@ -47,7 +47,7 @@ resource "aws_security_group_rule" "public_out" {
 
   to_port     = 5000
 
-  protocol    = "http"
+  protocol    = "tcp"
 
   cidr_blocks = ["0.0.0.0/0"]
 
@@ -55,6 +55,24 @@ resource "aws_security_group_rule" "public_out" {
   
 
 }
+
+resource "aws_security_group_rule" "public_out" {
+
+  type        = "ingress"
+
+  from_port   = 5001
+
+  to_port     = 5001
+
+  protocol    = "tcp"
+
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_group_id = element(tolist(data.aws_security_groups.test.ids), 0)
+  
+
+}
+
 
 output "instance_public_ip" {
   value = aws_instance.app_server.public_ip
