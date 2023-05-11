@@ -19,7 +19,7 @@ resource "aws_key_pair" "testing" {
   key_name = "testing-test"
 }
 
-resource "aws_instance" "app_server" {
+resource "aws_instance" "DEV_ENV_test" {
   ami           = "ami-007855ac798b5175e"
   instance_type = "t2.micro"
   vpc_security_group_ids = ["sg-0215d43840f30b7f2"]
