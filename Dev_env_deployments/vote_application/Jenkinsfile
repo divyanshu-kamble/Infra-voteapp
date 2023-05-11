@@ -9,8 +9,7 @@ pipeline {
                     sh '''
                         pwd
                         cd ./Dev_env_deployments/vote_application/Ansible/
-                        ansible-playbook main.yml -i /INFRA-VOTEAPP/Ansible-script/devinventory -e \\"username=$username\\" -e \\"password=$password\\" -e \\"build_version=${params.build_version_vote}\\" -vvv
-//                         ansible-playbook main.yml -i /INFRA-VOTEAPP/Ansible-script/devinventory -e "username=$username" -e "password=$password" -e"build_version=${params.build_version_vote}" -vvv 
+                        ansible-playbook main.yml -i /var/lib/jenkins/workspace/Infra/Dev-env-deployments/Voting-application-dev/Ansible-script/devinventory -e "username=$username" -e "password=$password" -e"build_version=${params.build_version_vote}" -vvv 
                     '''
                 }
             }
