@@ -7,7 +7,7 @@ pipeline {
                 steps {
                     withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh '''
-                    cd ./Dev_env_deployments/vote_application/
+                    cd ./Dev_env_deployments/vote_application/Ansible
                     ansible-playbook main.yml -i /INFRA-VOTEAPP/Ansible-script/devinventory -e "username=$username" -e "password=$password" -e"build_version=${params.build_version_vote}" -vvv 
                     '''
                 }
