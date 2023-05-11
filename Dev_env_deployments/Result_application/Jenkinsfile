@@ -8,7 +8,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh '''
                         pwd
-                        cd ./Dev_env_deployments/Worker_application/Ansible/
+                        cd ./Dev_env_deployments/Result_application/Ansible/
                         ansible-playbook main.yaml -i /var/lib/jenkins/workspace/Infra/Dev-env-deployments/Voting-application-dev/Ansible-script/devinventory -e "username=$username" -e "password=$password" -e "build_version=${params.build_version_result}" -vvv 
                     '''
                 }
