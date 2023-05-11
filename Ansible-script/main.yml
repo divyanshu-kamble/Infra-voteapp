@@ -1,7 +1,7 @@
 ---
 
 - name: CI tools installation/configuration
-  hosts: app_server
+  hosts: DEV_ENV_test
   become: true
   vars_files: 
    - vars/all.yaml 
