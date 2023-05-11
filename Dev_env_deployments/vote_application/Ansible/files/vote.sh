@@ -21,4 +21,5 @@ if [ -n "$container_info" ]; then
     fi
 else
     echo "No containers found using the specified image"
+    docker run -d -p 5000:80 --link redis --name vote divyanshuk/$1
 fi
