@@ -1,10 +1,10 @@
 ---
 
-- name: Vote Application Deployment
+- name: Result Application Deployment
   hosts: DEV_ENV_test
   become: true
   vars:
-    - app_name: vote
+    - app_name: result
   tasks:
     - name: Log into DockerHub
       docker_login:
@@ -12,10 +12,10 @@
         password: "{{ password }}"
 
     - name: Copying Script
-      copy: src=./files/vote.sh dest=/home/ubuntu/dev_env/application/ mode=0777
+      copy: src=./files/result.sh dest=/home/ubuntu/dev_env/application/ mode=0777
 
     - name: Running Shell Script
-      shell: /home/ubuntu/dev_env/application/vote.sh {{ app_name }}:{{ build_version }}
+      shell: /home/ubuntu/dev_env/application/result.sh {{ app_name }}:{{ build_version }}
 
     # - name: Check vote Application
     #   shell: |
