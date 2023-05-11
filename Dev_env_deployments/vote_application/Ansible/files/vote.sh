@@ -2,7 +2,7 @@
 
 
 container_info=$(docker ps -a --filter "ancestor=$1" --format "{{.Names}}:{{.State}}")
-# echo "$container_info"
+echo "$container_info"
 #Check if the output of the container is not null
 if [ -n "$container_info" ]; then
     container_name=$(echo "$container_info" | cut -d':' -f1)
