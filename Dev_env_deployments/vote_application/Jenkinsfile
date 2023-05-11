@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     parameters {
-        string(name: 'build_version_vote', default_value: 'latest', description: 'Build version of the application to be deployed')}
+        string(name: 'build_version_vote', defaultValue: 'latest', description: 'Build version of the application to be deployed')}
         stages {
             stage('Executing ansible script') {
                 steps {
