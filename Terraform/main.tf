@@ -75,7 +75,7 @@ resource "aws_security_group_rule" "result" {
 
 
 output "instance_public_ip" {
-  value = aws_instance.app_server.public_ip
+  value = aws_instance.DEV_ENV_test.public_ip
 }
 
 
