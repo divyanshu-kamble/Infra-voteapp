@@ -37,7 +37,7 @@ pipeline {
                 
                 steps{
                     sh '''
-                    echo '${Hostname}'
+                    echo '${params.Hostname}'
                     cd Ansible-script/Dev/Environment_configuration/with_roles
                     ansible-playbook main.yml -i Ansible-script/inventory_file/${inventory_file_name} -e "host_name=${Hostname}" -vvv
                     '''
