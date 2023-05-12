@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'instance_public_ip', description: 'Public IP address of the EC2 instance')
+        choice(name: 'inventory_file_name', choices: ['dev_inventory', 'qa_inventory'])
+        booleanParam(name: "Inventory_file_creation", defaultValue: false)
+        string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
+        }
+    stages {
+        stage('Checking inventory file') {
+            parallel {
+                stage("Create a file") {
+                    when { expression { params.Inventory } }
+                    steps {
+                        script {
+                            def ${inventory_file_name} = "myinventory\n"
+                            ${inventory_file_name} += "[${Hostname}]\n"
+                            ${inventory_file_name} += "${params.instance_public_ip} ansible_user=ubuntu\n"
+                            writeFile file: 'Ansible-script/inventory_files/${params.inventory_file_name}', text: ${inventory_file_name}
+                        }
+                    }
+                }
+
+                stage("Use Existing File") {
+                    when { expression { !params.Inventory } }
+                    steps {
+                        sh '''
+                        echo "Going forward with the file provided and not creating a new file."
+
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('executing ansible script') {
+            
+            steps{
+                sh '''
+                cd Ansible-script/Dev/Environment_configuration/with_roles
+                ansible-playbook main.yml -i Ansible-script/inventory_file/${inventory_file_name} -e "hostname=${Hostname}" -vvv
+                '''
+            }
+        }
+    }
+}
+

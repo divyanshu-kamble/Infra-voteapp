@@ -21,7 +21,7 @@ pipeline {
             steps{
                 sh '''
                 cd Ansible-script
-                ansible-playbook main.yml -i devinventory -vvv
+                ansible-playbook main.yml -i var/lib/jenkins/workspace/Infra-voteapp/Ansible-script/inventory_file/devinventory -vvv
                 '''
             }
         }

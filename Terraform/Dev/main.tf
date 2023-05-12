@@ -19,7 +19,7 @@ resource "aws_key_pair" "testing" {
   key_name = "testing-test"
 }
 
-resource "aws_instance" "DEV_ENV_test" {
+resource "aws_instance" "Dev_env" {
   ami           = "ami-007855ac798b5175e"
   instance_type = "t2.micro"
   vpc_security_group_ids = ["sg-0215d43840f30b7f2"]
@@ -78,26 +78,3 @@ output "instance_public_ip" {
   value = aws_instance.app_server.public_ip
 }
 
-
-
-# resource "local_file" "app_server" {
-#     content  = aws_instance.app_server.public_ip
-#     filename = "app_server.txt"
-
-# }
-
-# resource "github_repository_file" "example" {
-#   repository = "divyanshu-kamble/infra_voteapp"
-#   branch     = "YOUT-17-Create-EC2-instance-with-Terraform"
-#   file       = "./Ansible-script/"
-#   content    = file("app_server.txt")
-#   message    = "Add new file from local source"
-# }
-# resource "github_repository_file" "workflow_assign_issues" {
-#   repository          = infra_voteapp
-#   branch              = "YOUT-17-Create-EC2-instance-with-Terraform"
-#   commit_message      = "modified inventory file"
-#   overwrite_on_create = true
-#   file                = ".github/workflows/organize-assign-issues.yml"
-#   content             = data.local_file.workflow_assign_issues.content
-# }

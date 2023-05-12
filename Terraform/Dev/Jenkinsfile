@@ -1,0 +1,82 @@
+pipeline {
+  agent any
+  stages {
+    stage('Tf platform resources setting'){
+      steps {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')]){
+          sh '''
+          cd Terraform/Dev
+          pwd
+          terraform init
+          '''
+        }
+      }
+    }
+
+    stage('Terraform Plan'){
+      steps {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')]){
+          sh '''
+          cd Terraform/Dev
+          pwd
+          terraform plan -input=false -out tfplan
+          '''
+        }
+      }
+    }
+
+    stage('Terraform Apply'){
+      steps {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')]){
+          sh '''
+          cd Terraform/Dev
+          pwd
+          terraform apply -input=false tfplan
+          '''
+        dir('Terraform/Dev'){
+          script{
+            env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+            }
+        sh "echo ${INSTANCE_IP}"
+        }
+      }
+    }
+      
+    // stage('setting env variable') {
+    //   steps {
+    //     dir('Terraform'){
+    //       script{
+    //         env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+    //         }
+    //     sh "echo ${INSTANCE_IP}"
+    //     }
+        
+    //   }
+    // }
+    stage('Environment variable value') {
+      steps {
+        sh 'echo ${INSTANCE_IP}'
+            }
+          }
+          
+    stage('Build job Ansible trigger') {
+      steps {
+        build job: 'ansible-configuration', parameters: [
+            string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
+          ]
+      }
+    }
+    // stage('Build job Deployment trigger') {
+    //   steps {
+    //     build job: 'Application-deployment', parameters: [
+    //         string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
+    //       ]
+    //   }
+    // }
+        }
+    }
+}
+         
+          // build job: 'ansible-configuration', parameters: [
+          //   string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
+          // ]

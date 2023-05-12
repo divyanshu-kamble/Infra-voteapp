@@ -1,0 +1,230 @@
+---
+
+- name: CI tools installation/configuration
+  hosts: "{{ hostname }}"
+  become: true
+  vars_files: 
+   - vars/all.yaml 
+  tasks:
+   - name: Install Nginx on Ubuntu
+     apt: 
+      name: nginx
+      state: present
+
+   - name: Start the nginx service, if not started
+     ansible.builtin.service:
+      name: nginx
+      state: started
+
+   - name: Removing a user if present
+     ansible.builtin.user:
+      name: "{{ username }}"
+      password: "{{ password | password_hash('sha512')}}"
+      group: admin
+      append: true
+      shell: /bin/bash
+      system: true
+      createhome: yes
+      home: /home/duser
+      state: absent
+      remove: true
+      force: true
+
+   - name: Adding a user to the machine 
+     ansible.builtin.user:
+      name: "{{ username }}"
+      password: "{{ password | password_hash('sha512')}}"
+      group: admin
+      append: true
+      shell: /bin/bash
+      system: true
+      createhome: yes
+      home: /home/duser
+      state: present
+
+   - name: install dependencies
+     apt:
+        name: "{{item}}"
+        state: present
+     with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+
+   - name: add GPG key
+     apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+    
+   - name: add docker repository to apt
+     apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+
+   - name: install docker
+     apt:
+      name: "{{item}}"
+      state: latest
+     with_items:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+   - name: check docker is active
+     service:
+      name: docker
+      state: started
+      enabled: yes
+
+   - name: Ensure group "docker" exists
+     ansible.builtin.group:
+        name: docker
+        state: present
+
+   - name: adding ubuntu to docker group
+     user:
+      name: ubuntu
+      groups: docker
+      append: yes
+
+   - name: Install docker-compose
+     get_url:
+      url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+
+   - name: Change file ownership, group and permissions
+     ansible.builtin.file:
+      path: /usr/local/bin/docker-compose
+      owner: ubuntu
+      group: ubuntu
+
+   - name: Docker run on experimental mode  
+     shell: |
+      echo '{\n    "experimental": true\n}' > /etc/docker/daemon.json
+
+   - name: Restarting docker service
+     service:
+      name: docker
+      state: restarted
+      enabled: yes
+
+   - name: checking docker in experimental mode 
+     command: docker info 
+     register: dockerinfo
+    
+   - name: printing docker info 
+     debug:
+      msg: "{{dockerinfo.stdout}}"
+
+
+   - name: Installing sonarqube dependencies 
+     apt:
+      name: "{{item}}"
+      state: present
+     with_items:
+      - unzip
+      - acl
+      - openjdk-17-jdk
+      - openjdk-17-jre
+
+   - name: copy file from source to target
+     ansible.builtin.copy:
+      src: ./files/sonar.sh 
+      dest: /opt/ 
+      owner: root
+      group: root
+      mode: '0777'
+
+   - name: Adding a user to the machine
+     ansible.builtin.user:
+      name: sonar
+      shell: /bin/bash
+      system: true
+      createhome: yes
+      home: /home/sonar
+      state: present
+
+
+   - name: "set max_map_count value (required by elasticsearch)"
+     sysctl:
+      name: vm.max_map_count
+      value: 262144
+      state: present
+
+   - name: Execute the script by changing user 
+     command: /opt/sonar.sh
+       #vars: 
+       #ansible_become_password: "{{ password }}"
+    
+
+   - name: Start SonarQube Service
+     command: /opt/sonarqube/bin/linux-x86-64/sonar.sh start
+     become: yes
+     become_user: sonar
+
+
+   - name: copy file from source to target
+     ansible.builtin.copy:
+      src: ./files/sonarscanner.sh 
+      dest: /opt/ 
+      owner: root
+      group: root
+      mode: '0777'
+
+   - name: Execute sonarscanner script
+     command: /opt/sonarscanner.sh
+
+
+   - name: "nvm"
+     become: yes
+     become_user: ubuntu
+     shell: >
+      curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+     args:
+      executable: /bin/bash
+      chdir: "/home/ubuntu"
+      creates: "/home/ubuntu/.nvm/nvm.sh"  
+
+  
+   - name: Source nvm in ~/.{{ item }}
+     lineinfile: >
+        dest=~/.{{ item }}
+        line=". ~/.nvm/nvm.sh"
+        create=yes
+     tags: nvm
+     with_items:
+      - bashrc
+      - profile
+
+   - name: Install node and set version
+     become: yes
+     become_user: ubuntu
+     shell: ". ~/.{{ item }}"
+     args:
+      executable: /bin/bash
+     with_items:
+       - bashrc
+       - profile
+
+   - name: "source profile"
+     shell: . ~/.profile
+
+   - name: "nvm checking"
+     become: yes
+     become_user: root
+     shell: echo "PATH=$PATH:/home/ubuntu/.nvm" > /etc/environment
+     args:
+       executable: /bin/bash
+
+   - name: Test NVM and check/install node ver 18.0
+     become: yes
+     become_user: ubuntu
+     shell: |
+       . /home/ubuntu/.nvm/nvm.sh && nvm -v || true
+       nvm install 18.0.0 || true
+       node --version  || true
+     args:
+      executable: /bin/bash
