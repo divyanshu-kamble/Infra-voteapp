@@ -16,7 +16,7 @@ provider "aws" {
 
 resource "aws_key_pair" "testing" {
   public_key = file("~/.ssh/id_rsa.pub")
-  key_name = "testing-test"
+  key_name = "testing-dev"
 }
 
 resource "aws_instance" "Dev_env" {
