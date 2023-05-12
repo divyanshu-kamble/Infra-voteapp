@@ -14,7 +14,7 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-resource "aws_key_pair" "testing" {
+resource "aws_key_pair" "test" {
   public_key = file("~/.ssh/id_rsa.pub")
   key_name = "testing-test"
 }
