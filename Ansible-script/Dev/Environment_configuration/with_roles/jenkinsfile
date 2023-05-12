@@ -6,43 +6,43 @@ pipeline {
         booleanParam(name: "Inventory", defaultValue: false)
         string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
         }
-    stages {
-        stage('Checking inventory file') {
-            parallel {
-                stage("Create a file") {
-                    when { expression { params.Inventory } }
-                    steps {
-                        script {
-                            def inventory = "myinventory\n"
-                            inventory += "[${params.Hostname}]\n"
-                            inventory += "${params.instance_public_ip} ansible_user=ubuntu\n"
-                            writeFile file: 'Ansible-script/inventory_files/${params.inventory_file_name}', text: inventory
+        stages {
+            stage('Checking inventory file') {
+                parallel {
+                    stage("Create a file") {
+                        when { expression { params.Inventory } }
+                        steps {
+                            script {
+                                def inventory = "myinventory\n"
+                                inventory += "[${params.Hostname}]\n"
+                                inventory += "${params.instance_public_ip} ansible_user=ubuntu\n"
+                                writeFile file: 'Ansible-script/inventory_files/${params.inventory_file_name}', text: inventory
+                            }
+                        }
+                    }
+
+                    stage("Use Existing File") {
+                        when { expression { !params.Inventory } }
+                        steps {
+                            sh '''
+                            echo "Going forward with the file provided and not creating a new file."
+
+                            '''
                         }
                     }
                 }
+            }
 
-                stage("Use Existing File") {
-                    when { expression { !params.Inventory } }
-                    steps {
-                        sh '''
-                        echo "Going forward with the file provided and not creating a new file."
-
-                        '''
-                    }
+            stage('executing ansible script') {
+                
+                steps{
+                    sh '''
+                    echo '${Hostname}'
+                    cd Ansible-script/Dev/Environment_configuration/with_roles
+                    ansible-playbook main.yml -i Ansible-script/inventory_file/${inventory_file_name} -e "host_name=${Hostname}" -vvv
+                    '''
                 }
             }
-        }
-
-        stage('executing ansible script') {
-            
-            steps{
-                sh '''
-                echo '${Hostname}'
-                cd Ansible-script/Dev/Environment_configuration/with_roles
-                ansible-playbook main.yml -i Ansible-script/inventory_file/${inventory_file_name} -e "host_name=${Hostname}" -vvv
-                '''
-            }
-        }
     }
 }
 
