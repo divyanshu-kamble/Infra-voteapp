@@ -39,7 +39,7 @@ output "security_group_id" {
   value = data.aws_security_groups.test.ids
 }
 
-resource "aws_security_group_rule" "public_out" {
+resource "aws_security_group_rule" "public_out1" {
 
   type        = "ingress"
 
@@ -56,7 +56,7 @@ resource "aws_security_group_rule" "public_out" {
 
 }
 
-resource "aws_security_group_rule" "result" {
+resource "aws_security_group_rule" "result1" {
 
   type        = "ingress"
 
