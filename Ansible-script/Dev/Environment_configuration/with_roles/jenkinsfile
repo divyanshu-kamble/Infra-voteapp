@@ -14,7 +14,7 @@ pipeline {
                     steps {
                         script {
                             def inventory = "myinventory\n"
-                            inventory += "[${Hostname}]\n"
+                            inventory += "[${params.Hostname}]\n"
                             inventory += "${params.instance_public_ip} ansible_user=ubuntu\n"
                             writeFile file: 'Ansible-script/inventory_files/${params.inventory_file_name}', text: inventory
                         }
