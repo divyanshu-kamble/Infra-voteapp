@@ -2,10 +2,13 @@ pipeline {
     agent any
     parameters {
         string(name: 'instance_public_ip', description: 'Public IP address of the EC2 instance')
-        choice(name: 'inventory_file_name', choices: ['dev_inventory', 'qa_inventory'])
+       // choice(name: 'ENVIRONMENT', choices: ['DEV', 'QA'])
         booleanParam(name: "Inventory", defaultValue: false)
-        string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
+        //string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
         }
+    environment {
+        ENVIRONMENT = 'DEV'
+    }
         stages {
             stage('Checking inventory file') {
                 parallel {
@@ -14,20 +17,17 @@ pipeline {
                         steps {
                             script {
                                 def inventory = "myinventory\n"
-                                inventory += "[${Hostname}]\n"
+                                inventory += "[${ENVIRONMENT}]\n"
                                 inventory += "${instance_public_ip} ansible_user=ubuntu\n"
-                                writeFile file: "Ansible-script/inventory_files/${inventory_file_name}", text: inventory
+                                writeFile file: "Ansible-script/inventory_files/${ENVIRONMENT}-inventory", text: inventory
                             }
                         }
                     }
 
                         stage("Use Existing File") {
                             when { expression { !params.Inventory } }
-                            steps {
-                                sh '''
-                                echo "Going forward with the file provided and not creating a new file."
-
-                                '''
+                            steps {                       
+                               sh 'echo "Going forward with the file provided and not creating a new file."'                                
                             }
                         }
                     }
@@ -37,9 +37,8 @@ pipeline {
                 
                 steps{
                     sh '''
-                    echo '${params.Hostname}'
                     cd Ansible-script/Dev/Environment_configuration/with_roles
-                    ansible-playbook main.yml -i /var/lib/jenkins/workspace/Infra/ansible-configuration/Ansible-script/inventory_files/${inventory_file_name} -e "host_name=${Hostname}" -vvv
+                    ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${ENVIRONMENT}" 
                     '''
                 }
             }
