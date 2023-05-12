@@ -21,17 +21,17 @@ pipeline {
                         }
                     }
 
-                    stage("Use Existing File") {
-                        when { expression { !params.Inventory } }
-                        steps {
-                            sh '''
-                            echo "Going forward with the file provided and not creating a new file."
+                        stage("Use Existing File") {
+                            when { expression { !params.Inventory } }
+                            steps {
+                                sh '''
+                                echo "Going forward with the file provided and not creating a new file."
 
-                            '''
+                                '''
+                            }
                         }
                     }
                 }
-            }
 
             stage('executing ansible script') {
                 
