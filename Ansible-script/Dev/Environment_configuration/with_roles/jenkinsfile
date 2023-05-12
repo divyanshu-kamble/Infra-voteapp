@@ -16,7 +16,7 @@ pipeline {
                                 def inventory = "myinventory\n"
                                 inventory += "[${Hostname}]\n"
                                 inventory += "${instance_public_ip} ansible_user=ubuntu\n"
-                                writeFile file: 'Ansible-script/inventory_files/${inventory_file_name}', text: inventory
+                                writeFile file: "Ansible-script/inventory_files/${inventory_file_name}", text: inventory
                             }
                         }
                     }
@@ -39,7 +39,7 @@ pipeline {
                     sh '''
                     echo '${params.Hostname}'
                     cd Ansible-script/Dev/Environment_configuration/with_roles
-                    ansible-playbook main.yml -i Ansible-script/inventory_file/${inventory_file_name} -e "host_name=${Hostname}" -vvv
+                    ansible-playbook main.yml -i /var/lib/jenkins/workspace/Infra/ansible-configuration/Ansible-script/inventory_files/${inventory_file_name} -e "host_name=${Hostname}" -vvv
                     '''
                 }
             }
