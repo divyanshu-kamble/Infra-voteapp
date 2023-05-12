@@ -33,14 +33,15 @@ pipeline {
           pwd
           terraform apply -input=false tfplan
           '''
-        dir('Terraform/Dev'){
-          script{
-            env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+          dir('Terraform/Dev'){
+            script{
+              env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
             }
-        sh "echo ${INSTANCE_IP}"
+          sh "echo ${INSTANCE_IP}"
         }
       }
     }
+  }
       
     // stage('setting env variable') {
     //   steps {
@@ -75,7 +76,7 @@ pipeline {
     // }
         }
     }
-}
+
          
           // build job: 'ansible-configuration', parameters: [
           //   string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
