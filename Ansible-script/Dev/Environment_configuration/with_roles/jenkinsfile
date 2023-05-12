@@ -3,7 +3,7 @@ pipeline {
     parameters {
         string(name: 'instance_public_ip', description: 'Public IP address of the EC2 instance')
         choice(name: 'inventory_file_name', choices: ['dev_inventory', 'qa_inventory'])
-        booleanParam(name: "Inventory_file_creation", defaultValue: false)
+        booleanParam(name: "Inventory", defaultValue: false)
         string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
         }
     stages {
