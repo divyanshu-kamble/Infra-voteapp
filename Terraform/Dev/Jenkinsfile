@@ -63,17 +63,10 @@ pipeline {
     stage('Build job Ansible trigger') {
       steps {
         build job: 'ansible-configuration', parameters: [
-            string(name: 'instance_public_ip', value: "${INSTANCE_IP}")
-          ],
-          parameters: [
-            choice(name: 'inventory_file_name', value: "dev_inventory")
-          ],
-          parameters: [
-            string(name: 'Hostname', value: "dev_env")
-          ],
-          parameters: [
-            booleanParam(name: 'Inventory_file_creation', value: true)
-          ]
+            string(name: 'instance_public_ip', value: "${INSTANCE_IP}"),
+            choice(name: 'inventory_file_name', value: "dev_inventory"),
+            string(name: 'Hostname', value: "dev_env"),
+            booleanParam(name: 'Inventory_file_creation', value: true)]
       }
     }
     // stage('Build job Deployment trigger') {
