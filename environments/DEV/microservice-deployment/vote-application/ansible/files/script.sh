@@ -45,24 +45,24 @@ done
 
 
 container_info=$(docker ps -a --filter "ancestor=$APPNAME" --format "{{.Names}}:{{.State}}")
-    echo "$container_info"
+echo "$container_info"
     #Check if the output of the container is not null
-    if [ -n "$container_info" ]; then
-        container_name=$(echo "$container_info" | cut -d':' -f1)
-        container_status=$(echo "$container_info" | cut -d':' -f2)
+if [ -n "$container_info" ]; then
+    container_name=$(echo "$container_info" | cut -d':' -f1)
+    container_status=$(echo "$container_info" | cut -d':' -f2)
 
-        if [ "$container_status" == "running" ] ; then
-            echo "Container $container_name is up and running"
-        elif [ "$container_status" == "exited" ]; then
-            echo "Container $container_name is in exited state"
+    if [ "$container_status" == "running" ] ; then
+        echo "Container $container_name is up and running"
+    elif [ "$container_status" == "exited" ]; then
+        echo "Container $container_name is in exited state"
             # If the container is in exited state then start the container
-            docker start $container_name
-        else
-            echo "will install $container_name"
-            eval $DOCKER_COMMAND
-            
-        fi
+        docker start $container_name
     else
-        echo "No containers found using the specified image"
+        echo "will install $container_name"
         eval $DOCKER_COMMAND
+            
     fi
+else
+    echo "No containers found using the specified image"
+    eval $DOCKER_COMMAND
+fi
