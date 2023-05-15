@@ -1,5 +1,7 @@
 pipeline {
-    agent { label: Master}
+    agent {
+    label 'Master'
+}
     environment {
         ENVIRONMENT = 'DEV'
         APPNAME = 'vote'
