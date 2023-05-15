@@ -1,6 +1,7 @@
 #!/bin/bash
 APPNAME=$1
-DOCKER_COMMAND="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME"
+TAG=$2
+DOCKER_COMMAND="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME:$TAG"
 
 
 #Check for depenedincies of redis and postgres
@@ -44,7 +45,7 @@ do
 done
 
 
-container_info=$(docker ps -a --filter "ancestor=$APPNAME" --format "{{.Names}}:{{.State}}")
+container_info=$(docker ps -a --filter "ancestor=$APPNAME:$TAG" --format "{{.Names}}:{{.State}}")
 echo "$container_info"
     #Check if the output of the container is not null
 if [ -n "$container_info" ]; then
