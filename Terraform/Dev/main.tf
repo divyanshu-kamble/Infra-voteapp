@@ -19,12 +19,13 @@ provider "aws" {
 #   key_name = "testing-test"
 # }
 
-resource "aws_instance" "Dev_env" {
+resource "aws_instance" "DEV" {
   ami           = "ami-007855ac798b5175e"
   instance_type = "t2.micro"
   vpc_security_group_ids = ["sg-0215d43840f30b7f2"]
   subnet_id              = "subnet-0ec8047a99bd220b4" 
   key_name = "testing-test"
+  user_data = "${file("files/script.sh")}"
 
 }
 

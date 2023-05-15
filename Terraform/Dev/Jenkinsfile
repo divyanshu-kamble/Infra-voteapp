@@ -60,15 +60,15 @@ pipeline {
             }
           }
           
-    stage('Build job Ansible trigger') {
-      steps {
-        build job: 'ansible-configuration', parameters: [
-            string(name: 'instance_public_ip', value: "${INSTANCE_IP}"),
-            Choice(name: 'inventory_file_name', value: "dev_inventory"),
-            string(name: 'Hostname', value: "dev_env"),
-            booleanParam(name: 'Inventory', value: true)]
-      }
-    }
+    // stage('Build job Ansible trigger') {
+    //   steps {
+    //     build job: 'ansible-configuration', parameters: [
+    //         string(name: 'instance_public_ip', value: "${INSTANCE_IP}"),
+    //         Choice(name: 'inventory_file_name', value: "dev_inventory"),
+    //         string(name: 'Hostname', value: "dev_env"),
+    //         booleanParam(name: 'Inventory', value: true)]
+    //   }
+    // }
     // stage('Build job Deployment trigger') {
     //   steps {
     //     build job: 'Application-deployment', parameters: [
