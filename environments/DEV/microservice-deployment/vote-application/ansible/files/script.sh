@@ -12,6 +12,7 @@ CONTAINER_NAME[$APPNAME]="docker run -d -p 5000:80 --link redis --name $APPNAME 
 
 #ITERATING OVER THE CONTAINER_NAME AND INSTALLING OR STARTING THE CONTAINERS
 for container in "${!CONTAINER_NAME[@]}"
+echo "$container"
 do
     container_info=$(docker ps -a --filter "ancestor=$container" --format "{{.Names}}:{{.State}}")
     echo "$container_info"
