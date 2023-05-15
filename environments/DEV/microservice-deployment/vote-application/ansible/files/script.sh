@@ -6,9 +6,10 @@ APPNAME=$1
 #Using key value pair - TO ITERATE OVER THE REQUIRED DEPENDENCIES AND THEN RUNNING THE CONTAINERS
 declare -A CONTAINER_NAME
 
+CONTAINER_NAME[$APPNAME]="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME"
 CONTAINER_NAME[redis:latest]="docker run -d -h redis -p 6379:6379 --name redis redis:latest"
 CONTAINER_NAME[postgres:15-alpine]="docker run -d -h db --name postgres -e POSTGRES_DB=db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15-alpine"
-CONTAINER_NAME[$APPNAME]="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME"
+
 
 #ITERATING OVER THE CONTAINER_NAME AND INSTALLING OR STARTING THE CONTAINERS
 for container in "${!CONTAINER_NAME[@]}"
