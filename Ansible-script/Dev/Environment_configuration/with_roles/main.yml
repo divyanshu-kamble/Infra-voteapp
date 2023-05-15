@@ -1,0 +1,36 @@
+---
+
+- name: CI tools installation/configuration
+  hosts: "{{ host_name }}"
+  become: true
+  vars_files: 
+   - vars/all.yaml 
+  tasks:
+    # - name: install nginx dependencies 
+    #   ansible.builtin.import_role:
+    #    name: nginx
+ 
+    - name: create a user
+      ansible.builtin.import_role:
+       name: create-user
+       
+    - name: install docker 
+      ansible.builtin.import_role:
+       name: docker_with_experimental_mode
+
+    # - name: install sonarqube 
+    #   ansible.builtin.import_role:
+    #    name: sonarqube
+
+    # - name: install sonarscanner 
+    #   ansible.builtin.import_role:
+    #    name: docker_with_experimental_mode       
+
+    # - name: install nvm and node 
+    #   ansible.builtin.import_role:
+    #    name: docker_with_experimental_mode    
+
+
+
+
+

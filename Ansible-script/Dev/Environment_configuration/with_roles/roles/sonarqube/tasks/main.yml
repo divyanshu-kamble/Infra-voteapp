@@ -1,0 +1,44 @@
+---
+   - name: Installing sonarqube dependencies 
+     apt:
+      name: "{{item}}"
+      state: present
+     with_items:
+      - unzip
+      - acl
+      - openjdk-17-jdk
+      - openjdk-17-jre
+   
+   - name: copy file from source to target
+     ansible.builtin.copy:
+      src: ./files/sonar.sh 
+      dest: /opt/ 
+      owner: root
+      group: root
+      mode: '0777'
+
+   - name: Adding a user to the machine
+     ansible.builtin.user:
+      name: sonar
+      shell: /bin/bash
+      system: true
+      createhome: yes
+      home: /home/sonar
+      state: present
+
+   - name: "set max_map_count value (required by elasticsearch)"
+     sysctl:
+      name: vm.max_map_count
+      value: 262144
+      state: present
+
+
+   - name: Execute the script by changing user 
+     command: /opt/sonar.sh
+       #vars: 
+       #ansible_become_password: "{{ password }}"
+
+   - name: Start SonarQube Service
+     command: /opt/sonarqube/bin/linux-x86-64/sonar.sh start
+     become: yes 
+     become_user: sonar

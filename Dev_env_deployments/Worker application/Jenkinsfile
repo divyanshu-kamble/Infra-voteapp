@@ -1,0 +1,19 @@
+pipeline {
+    agent any 
+    parameters {
+        string(name: 'build_version_worker', defaultValue: 'latest', description: 'Build version of the application to be deployed')}
+        stages {
+            stage('Executing ansible script') {
+                steps {
+                    withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    sh '''
+                        echo ${build_version_worker}
+                        pwd
+                        cd ./Dev_env_deployments/Worker\\ application/Ansible/
+                        ansible-playbook main.yaml -i /var/lib/jenkins/workspace/Infra/Dev-env-deployments/Voting-application-dev/Ansible-script/devinventory -e "username=$username" -e "password=$password" -e "build_version=${build_version_worker}" -vvv 
+                    '''
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'instance_public_ip', description: 'Public IP address of the EC2 instance')}
+    stages {
+        stage('creating inventory file') {
+            
+            steps{
+                script{
+                    def devinventory = "myinventory\n"
+                    devinventory += "[DEV_ENV_test]\n"
+                    devinventory += "${params.instance_public_ip} ansible_user=ubuntu\n"
+
+                    writeFile file: 'Ansible-script/devinventory', text: devinventory
+                }
+            }
+        }
+            
+        stage('executing ansible script') {
+            
+            steps{
+                sh '''
+                cd Ansible-script
+                ansible-playbook main.yml -i var/lib/jenkins/workspace/Infra-voteapp/Ansible-script/inventory_file/devinventory -vvv
+                '''
+            }
+        }
+    }
+}
+

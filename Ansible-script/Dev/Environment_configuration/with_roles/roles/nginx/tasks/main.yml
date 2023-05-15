@@ -1,0 +1,11 @@
+---
+  
+    - name: Install Nginx on Ubuntu
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start the nginx service, if not started
+      ansible.builtin.service:
+        name: nginx
+        state: started

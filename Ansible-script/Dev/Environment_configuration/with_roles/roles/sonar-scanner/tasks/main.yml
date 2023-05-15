@@ -1,0 +1,12 @@
+---
+
+   - name: copy file from source to target
+     ansible.builtin.copy:
+      src: ./files/sonarscanner.sh 
+      dest: /opt/ 
+      owner: root
+      group: root
+      mode: '0777'
+
+   - name: Execute sonarscanner script
+     command: /opt/sonarscanner.sh
