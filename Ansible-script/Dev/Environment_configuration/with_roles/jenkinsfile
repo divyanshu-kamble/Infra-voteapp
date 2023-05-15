@@ -47,7 +47,7 @@ pipeline {
                 steps{
                     withCredentials withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]){
                         sh '''
-                        git add ./Ansible-script/
+
                         git commit -m 'push from jenkins'
                         git pull origin YOUT-18-Individual-deployment-application
                         git checkout YOUT-18-Individual-deployment-application
