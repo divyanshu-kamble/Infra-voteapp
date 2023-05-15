@@ -1,7 +1,7 @@
 #!/bin/bash
 APPNAME=$1
 TAG=$2
-DOCKER_COMMAND="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME:$TAG"
+DOCKER_COMMAND="docker run -d -p 5001:80 --link postgres --name $APPNAME divyanshuk/$APPNAME:$TAG"
 
 
 #Check for depenedincies of redis and postgres
