@@ -1,0 +1,16 @@
+---
+
+- name: Application Deployment
+  hosts: '{{ ENVIRONMENT }}'
+  become: true
+  tasks:
+    - name: Log into DockerHub
+      docker_login:
+        username: "{{ username }}"
+        password: "{{ password }}"
+
+    - name: Copying Script
+      copy: src=./files/script.sh dest=/home/ubuntu/dev_env/application/{{ APP-NAME }}/ mode=0777
+
+    - name: Running Shell Script
+      shell: /home/ubuntu/dev_env/application/{{ APP-NAME }}/ {{ APP-NAME }}:{{ TAG }}
