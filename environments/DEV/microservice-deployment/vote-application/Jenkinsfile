@@ -15,8 +15,10 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh '''
                         pwd
+                        
                         cd environments/DEV/microservice-deployment/${APPNAME}-application/ansible
-                        ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/${ENVIRONMENT}-inventory -e "username=$username" -e "password=$password" -e "TAG=${params.TAG}" -e "APP-NAME=${APPNAME}"-vvv
+                        echo '${WORKSPACE}
+                        ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "username=$username" -e "password=$password" -e "TAG=${params.TAG}" -e "APP-NAME=${APPNAME}"-vvv
                     '''
                 }
             }
