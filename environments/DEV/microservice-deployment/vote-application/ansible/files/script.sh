@@ -1,5 +1,7 @@
 #!/bin/bash
 APPNAME=$1
+DOCKER_COMMAND="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME"
+
 
 #Check for depenedincies of redis and postgres
 
@@ -41,7 +43,6 @@ do
     fi
 done
 
-DOCKER_COMMAND="docker run -d -p 5000:80 --link redis --name $APPNAME divyanshuk/$APPNAME"
 
 container_info=$(docker ps -a --filter "ancestor=$APPNAME" --format "{{.Names}}:{{.State}}")
     echo "$container_info"
