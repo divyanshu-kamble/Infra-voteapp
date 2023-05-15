@@ -76,6 +76,6 @@ output "security_group_id" {
 
 
 output "instance_public_ip" {
-  value = aws_instance.Dev_env.public_ip
+  value = aws_instance.DEV.public_ip
 }
 
