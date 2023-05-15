@@ -13,4 +13,4 @@
       copy: src=./files/script.sh dest=/home/ubuntu/dev_env/application/{{ APP-NAME }}/ mode=0777
 
     - name: Running Shell Script
-      shell: /home/ubuntu/dev_env/application/{{ APP-NAME }}/ {{ APP-NAME }}:{{ TAG }}
+      shell: /home/ubuntu/dev_env/application/{{ APP-NAME }}/script.sh {{ APP-NAME }}:{{ TAG }}
