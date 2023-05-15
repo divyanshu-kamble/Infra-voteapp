@@ -18,7 +18,7 @@ pipeline {
                         
                         cd environments/DEV/microservice-deployment/${APPNAME}-application/ansible
                         echo "${WORKSPACE}"
-                        ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "username=$username" -e "password=$password" -e "TAG=${params.TAG}" -e "APP-NAME=${APPNAME}" -vvv
+                        ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "username=$username" -e "password=$password" -e "TAG=${params.TAG}" -e "APP-NAME=${APPNAME}" -e "ENVIRONMENT=${ENVIRONMENT}" -vvv
                     '''
                 }
             }
