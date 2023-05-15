@@ -62,6 +62,6 @@ container_info=$(docker ps -a --filter "ancestor=$APPNAME" --format "{{.Names}}:
             
         fi
     else
-        echo "No containers found using the specified image $container_name"
+        echo "No containers found using the specified image"
         eval $DOCKER_COMMAND
     fi
