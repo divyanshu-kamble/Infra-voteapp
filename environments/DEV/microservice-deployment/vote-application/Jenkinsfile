@@ -20,7 +20,7 @@ pipeline {
                         echo "${WORKSPACE}"
                         echo "${ENVIRONMENT}"
                         echo "${APPNAME}"
-                        ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "username=${username}" -e "password=${password}" -e "TAG=${TAG}" -e "APP-NAME=${APPNAME}" -e "ENVIRONMENT=${ENVIRONMENT}" -vvv
+                        ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "username=${username}" -e "password=${password}" -e "TAG=${TAG}" -e "APPNAME=${APPNAME}" -e "ENVIRONMENT=${ENVIRONMENT}" -vvv
                     '''
                 }
             }
