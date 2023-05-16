@@ -7,7 +7,7 @@
    - name: installing jenkins
      get_url:
       url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
-      dest: /home/ubuntu/opt/jenkins
+      dest: /home/ubuntu/
 
    - name: import jenkins key
      rpm_key:
