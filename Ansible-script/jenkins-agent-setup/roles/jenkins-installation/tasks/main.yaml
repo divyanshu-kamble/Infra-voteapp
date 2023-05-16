@@ -9,15 +9,24 @@
       name: net-tools
       state: present
 
-   - name: Add Jenkins APT key
-     apt_key:
-        url: https://pkg.jenkins.io/debian/jenkins.io.key
-        state: present
-
-   - name: Add Jenkins APT repository
+   - name: Ensure Jenkins Repository is Installed
      apt_repository:
-        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        name: jenkins
         state: present
+        description: Official Jenkins Yum Repo
+        baseurl: http://pkg.jenkins.io/redhat
+        gpgkey: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+        gpgcheck: yes
+        enabled: yes
+  #  - name: Add Jenkins APT key
+  #    apt_key:
+  #       url: https://pkg.jenkins.io/debian/jenkins.io.key
+  #       state: present
+
+  #  - name: Add Jenkins APT repository
+  #    apt_repository:
+  #       repo: deb https://pkg.jenkins.io/debian-stable binary/
+  #       state: present
 
   #  - name: import jenkins key
   #    rpm_key:
