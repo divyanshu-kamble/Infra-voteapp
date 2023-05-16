@@ -11,8 +11,8 @@
 
    - name: import jenkins key
      rpm_key:
-     state: present
-     key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+      state: present
+      key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
    - name: install jenkins
      apt:
