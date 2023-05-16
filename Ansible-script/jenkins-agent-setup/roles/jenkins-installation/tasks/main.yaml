@@ -4,16 +4,16 @@
       name: wget
       state: present
 
-   - name: Install dependencies
-     apt:
-      name: net-tools
-      state: present
+  #  - name: Install dependencies
+  #    apt:
+  #     name: net-tools
+  #     state: present
 
-   - name: jenkins repo
-     apt_key:
-      url: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
-      state: present
-     become: true
+  #  - name: jenkins repo
+  #    apt_key:
+  #     url: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+  #     state: present
+  #    become: true
 
 
   #  - name: Add Jenkins APT key
