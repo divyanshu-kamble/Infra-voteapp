@@ -1,36 +1,42 @@
 ---
-  - name: install wget
-    apt:
+   - name: install wget
+     apt:
       name: wget
       state: present
 
-  - name: Install dependencies
-    apt:
+   - name: Install dependencies
+     apt:
       name: net-tools
       state: present
 
-  - name: Download Long Term Jenkins release
-    get_url:
-      url: wget https://pkg.jenkins.io/debian-stable/jenkins.io.key
-      dest: /opt/ 
-
-  - name: add GPG key
-    apt_key:
-      url: gpg --dearmor -o /usr/share/keyrings/jenkins.gpg
+   - name: jenkins repo
+     apt_key:
+      url: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
       state: present
-
-  - name: sudo
-    command: sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-    become: true
+     become: true
 
 
-  - name: install jenkins
-    apt:
+  #  - name: Add Jenkins APT key
+  #    apt_key:
+  #       url: https://pkg.jenkins.io/debian/jenkins.io.key
+  #       state: present
+
+
+  #  - name: import jenkins key
+  #    rpm_key:
+  #     state: present
+  #     key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+
+
+   - name: install jenkins
+     apt:
       name: jenkins
       state: present
-      
-  - name: Start Jenkins service
-    service:
+      update_cache: yes
+
+   - name: Start Jenkins service
+     service:
         name: jenkins
         state: started
         enabled: true
