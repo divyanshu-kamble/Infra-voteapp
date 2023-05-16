@@ -28,4 +28,4 @@
 
    - name: Reload /etc/profile file
      shell:
-        cmd: source /etc/profile
+        cmd: ~/etc/profile
