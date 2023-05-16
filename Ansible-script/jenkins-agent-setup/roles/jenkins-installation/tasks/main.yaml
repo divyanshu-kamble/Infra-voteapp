@@ -11,14 +11,18 @@
 
   - name: Download Long Term Jenkins release
     get_url:
-      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      url: wget -q - https://pkg.jenkins.io/debian-stable/jenkins.io.key
       dest: /opt/ 
 
-
-  - name: Import jenkins key from url
-    ansible.builtin.rpm_key:
+  - name: add GPG key
+    apt_key:
+      url: gpg --dearmor -o /usr/share/keyrings/jenkins.gpg
       state: present
-      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+  - name: sudo
+    command: sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+    become: true
+
 
   - name: install jenkins
     apt:
