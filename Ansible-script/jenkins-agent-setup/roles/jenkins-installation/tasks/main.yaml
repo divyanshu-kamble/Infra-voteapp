@@ -1,32 +1,32 @@
 ---
-   - name: install wget
-     apt:
+  - name: install wget
+    apt:
       name: wget
       state: present
 
-   - name: Install dependencies
-     apt:
+  - name: Install dependencies
+    apt:
       name: net-tools
       state: present
 
-   - name: jenkins repo
-     apt_key:
-      url: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
-      state: present
-     become: true
+  - name: Download Long Term Jenkins release
+    get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
 
-   - name: import jenkins key
-     rpm_key:
+
+  - name: Import jenkins key from url
+    ansible.builtin.rpm_key:
       state: present
       key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-
-   - name: install jenkins
-     apt:
+      
+  - name: install jenkins
+    apt:
       name: jenkins
       state: present
-
-   - name: Start Jenkins service
-     service:
+      
+  - name: Start Jenkins service
+    service:
         name: jenkins
         state: started
         enabled: true
