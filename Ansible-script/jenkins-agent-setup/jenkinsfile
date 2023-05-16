@@ -30,7 +30,7 @@ pipeline {
         stage('executing ansible script') {
             steps {
                 sh '''
-                    cd jenkins-agent-setup/
+                    cd Ansible-script/jenkins-agent-setup/
                     ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${AGENT}" -vvv
                 '''
             }
