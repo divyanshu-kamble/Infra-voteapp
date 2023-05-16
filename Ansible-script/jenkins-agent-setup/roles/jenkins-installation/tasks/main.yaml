@@ -4,6 +4,11 @@
       name: wget
       state: present
 
+   - name: Install dependencies
+     apt:
+      name: net-tools
+      state: present
+
    - name: Add Jenkins APT key
      apt_key:
         url: https://pkg.jenkins.io/debian/jenkins.io.key
