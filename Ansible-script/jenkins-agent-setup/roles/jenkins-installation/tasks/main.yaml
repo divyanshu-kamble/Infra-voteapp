@@ -4,10 +4,10 @@
       name: wget
       state: present
 
-   - name: installing jenkins
-     get_url:
-      url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
-      dest: /home/ubuntu/
+   - name: Add Jenkins APT key
+     apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
 
    - name: import jenkins key
      rpm_key:
