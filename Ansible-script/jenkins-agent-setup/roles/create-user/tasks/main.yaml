@@ -1,0 +1,26 @@
+--- 
+   - name: Removing a user if present
+     ansible.builtin.user:
+      name: "{{ username }}"
+      password: "{{ password | password_hash('sha512')}}"
+      group: admin
+      append: true
+      shell: /bin/bash
+      system: true
+      createhome: yes
+      home: /home/{{ username }}
+      state: absent
+      remove: true
+      force: true
+
+   - name: Adding a user to the machine 
+     ansible.builtin.user:
+      name: "{{ username }}"
+      password: "{{ password | password_hash('sha512')}}"
+      group: admin
+      append: true
+      shell: /bin/bash
+      system: true
+      createhome: yes
+      home: /home/{{ username }}
+      state: present

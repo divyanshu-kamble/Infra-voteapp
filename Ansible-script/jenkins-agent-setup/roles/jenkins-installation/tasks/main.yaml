@@ -1,0 +1,26 @@
+---
+   - name: install wget
+     apt:
+      name: wget
+      state: present
+
+   - name: installing jenkins
+     get_url:
+      url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+      dest: /home/ubuntu/opt/jenkins
+
+   - name: import jenkins key
+     rpm_key:
+     state: present
+     key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+   - name: install jenkins
+     apt:
+      name: jenkins
+      state: present
+
+   - name: Start Jenkins service
+     service:
+        name: jenkins
+        state: started
+        enabled: true

@@ -1,0 +1,8 @@
+---
+   - name: Installing JDK
+     apt: 
+        name: "{{ items }}"
+        state: present
+     with_items: 
+      - openjdk-17-jre
+      - openjdk-17-jdk

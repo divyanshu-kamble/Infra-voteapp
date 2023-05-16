@@ -1,0 +1,21 @@
+---
+
+- name: Jenkins-agent configuration
+  hosts: "{{ host_name }}"
+  become: true
+  vars_files: 
+   - vars/vars.yaml 
+  tasks:
+    - name: create a user
+      ansible.builtin.import_role:
+       name: create-user
+       
+    - name: install java 
+      ansible.builtin.import_role:
+       name: jdk-installation
+
+    - name: install jenkins
+      ansible.builtin.import_role:
+        name: jenkins-installation
+
+        
