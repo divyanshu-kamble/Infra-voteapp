@@ -12,14 +12,14 @@
   - name: Download Long Term Jenkins release
     get_url:
       url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
-      dest: /etc/yum.repos.d/jenkins.repo
+      dest: /opt/ 
 
 
   - name: Import jenkins key from url
     ansible.builtin.rpm_key:
       state: present
       key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-      
+
   - name: install jenkins
     apt:
       name: jenkins
