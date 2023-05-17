@@ -6,12 +6,7 @@
   vars_files: 
    - vars/all.yaml 
   tasks:
-      - name: Install .NET Core
-        hosts: your_target_host
-        become: true
-
-      
-
+      -
       - name: Install dependencies
         apt:
          name:
@@ -34,6 +29,7 @@
         apt:
          name: dotnet-sdk-5.0
          state: present
+
     # - name: install nginx dependencies 
     #   ansible.builtin.import_role:
     #    name: nginx
