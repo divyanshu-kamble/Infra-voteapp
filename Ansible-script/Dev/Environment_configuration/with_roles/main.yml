@@ -29,6 +29,7 @@
         apt:
          name: dotnet-sdk-5.0
          state: present
+         update_cache: true
 
     # - name: install nginx dependencies 
     #   ansible.builtin.import_role:
