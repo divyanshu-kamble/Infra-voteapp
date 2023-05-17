@@ -21,10 +21,22 @@
      ansible.builtin.user:
       name: "{{ username }}"
       password: "{{ password | password_hash('sha512')}}"
-      group: admin
+      groups: 
+        - admin
+        - docker 
       append: true
       shell: /bin/bash
       system: true
       createhome: yes
-      home: /home/duser
+      home: /home/{{ username }}
       state: present
+
+    
+   - name: Add user to sudoers file
+     lineinfile:
+        path: /etc/sudoers
+        regexp: ^%admin ALL=\(ALL\) ALL$
+        insertafter: ^%admin ALL=\(ALL\) ALL$
+        line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+        state: present
