@@ -35,6 +35,7 @@
 
    - name: Execute the script by changing user 
      command: /opt/sonar.sh
+     become: yes
        #vars: 
        #ansible_become_password: "{{ password }}"
 
