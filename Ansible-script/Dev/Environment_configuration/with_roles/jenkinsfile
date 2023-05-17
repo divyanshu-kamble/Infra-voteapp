@@ -7,7 +7,7 @@ pipeline {
         //string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
         }
     environment {
-        ENVIRONMENT = 'DEV'
+        ENVIRONMENT = 'JENKINS-AGENTS'
         AGENT = 'agent2'
     }
         stages {
