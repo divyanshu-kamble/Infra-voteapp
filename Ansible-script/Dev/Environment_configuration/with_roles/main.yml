@@ -6,7 +6,7 @@
   vars_files: 
    - vars/all.yaml 
   tasks:
-      -
+      
       - name: Install dependencies
         apt:
          name:
