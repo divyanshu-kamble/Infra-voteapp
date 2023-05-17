@@ -5,3 +5,5 @@
 3.221.160.75 ansible_user=ubuntu
 [agent2]
 3.221.160.75 ansible_user=ubuntu
+[agent2]
+3.221.160.75 ansible_user=ubuntu
