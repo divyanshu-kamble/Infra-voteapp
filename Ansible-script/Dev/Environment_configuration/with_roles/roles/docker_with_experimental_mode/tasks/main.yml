@@ -62,7 +62,7 @@
      ansible.builtin.file:
       path: /usr/local/bin/docker-compose
       owner: '{{ username }}'
-      group: ubuntu
+      group: admin
 
    - name: Docker run on experimental mode  
      shell: |

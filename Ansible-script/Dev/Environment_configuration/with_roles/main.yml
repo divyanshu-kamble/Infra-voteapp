@@ -26,13 +26,13 @@
     #   ansible.builtin.import_role:
     #    name: sonarqube
 
-    - name: install sonarscanner 
-      ansible.builtin.import_role:
-       name: sonar-scanner       
+    # - name: install sonarscanner 
+    #   ansible.builtin.import_role:
+    #    name: sonar-scanner       
 
-    - name: install nvm and node 
-      ansible.builtin.import_role:
-        name: nvm_and_node
+    # - name: install nvm and node 
+    #   ansible.builtin.import_role:
+    #     name: nvm_and_node
 
 
 
