@@ -31,3 +31,4 @@
       owner: "{{ username }}"
       group: admin
       mode: '0700'
+      state: directory
