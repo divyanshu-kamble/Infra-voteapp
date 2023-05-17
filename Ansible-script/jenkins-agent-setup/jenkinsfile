@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         ENVIRONMENT = 'DEV'
-        AGENT = 'agent1'
+        AGENT = 'agent2'
     }
     stages {
         stage('Checking inventory file') {
