@@ -5,12 +5,14 @@
      ansible.builtin.user:
       name: "{{ username }}"
       password: "{{ password | password_hash('sha512')}}"
-      group: admin
+      group: 
+        - admin
+        - docker 
       append: true
       shell: /bin/bash
       system: true
       createhome: yes
-      home: /home/duser
+      home: /home/{{ username }}
       state: absent
       remove: true
       force: true

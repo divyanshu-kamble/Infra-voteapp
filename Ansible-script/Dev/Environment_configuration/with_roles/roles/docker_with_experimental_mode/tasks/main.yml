@@ -48,7 +48,7 @@
 
    - name: adding ubuntu to docker group
      user:
-      name: ubuntu
+      name: "{{ username }}"
       groups: docker
       append: yes
 
@@ -61,7 +61,7 @@
    - name: Change file ownership, group and permissions
      ansible.builtin.file:
       path: /usr/local/bin/docker-compose
-      owner: ubuntu
+      owner: '{{ username }}'
       group: ubuntu
 
    - name: Docker run on experimental mode  
@@ -72,7 +72,7 @@
      service:
       name: docker
       state: restarted
-      enabled: yes
+      enabled: yes 
 
    - name: checking docker in experimental mode 
      command: docker info 
