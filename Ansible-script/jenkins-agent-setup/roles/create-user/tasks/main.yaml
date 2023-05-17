@@ -24,3 +24,10 @@
       createhome: yes
       home: /home/{{ username }}
       state: present
+
+   - name: Create dir for jenkins and give user permission
+     ansible.builtin.file:
+      path: /opt/jenkins/
+      owner: "{{ username }}"
+      group: admin
+      mode: '0700'
