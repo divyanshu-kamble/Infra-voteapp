@@ -30,9 +30,9 @@
       ansible.builtin.import_role:
        name: sonar-scanner       
 
-    # - name: install nvm and node 
-    #   ansible.builtin.import_role:
-    #    name: docker_with_experimental_mode    
+    - name: install nvm and node 
+      ansible.builtin.import_role:
+       name: docker_with_experimental_mode    
 
 
 
