@@ -5,9 +5,9 @@
      ansible.builtin.user:
       name: "{{ username }}"
       password: "{{ password | password_hash('sha512')}}"
-      group: 
+      groups: 
         - admin
-        - docker 
+        - docker
       append: true
       shell: /bin/bash
       system: true
