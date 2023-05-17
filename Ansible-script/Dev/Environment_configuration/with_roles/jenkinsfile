@@ -8,7 +8,7 @@ pipeline {
         }
     environment {
         ENVIRONMENT = 'DEV'
-        AGENT = 'localhost'
+        AGENT = 'agent2'
     }
         stages {
             // stage('Checking inventory file') {
