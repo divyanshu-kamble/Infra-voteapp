@@ -21,14 +21,8 @@
           dest: /tmp/packages-microsoft-prod.deb
 
       - name: Install MS product repository
-        apt: deb=/tmp/packages-microsoft-prod.deb
+        apt: deb=/tmp/packages-microsoft-prod.deb 
         become: true
-        update_cache: true
-
-      # - name: Add Microsoft package repository
-      #   apt_repository:
-      #    repo: "deb [arch=amd64] https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main"
-      #    state: present
 
       - name: Install .NET SDK
         apt:
