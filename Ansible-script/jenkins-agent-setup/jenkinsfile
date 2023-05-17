@@ -5,7 +5,7 @@ pipeline {
         booleanParam(name: "Inventory", defaultValue: false)
     }
     environment {
-        ENVIRONMENT = 'DEV'
+        ENVIRONMENT = 'JENKINS-AGENTS'
         AGENT = 'agent2'
     }
     stages {
