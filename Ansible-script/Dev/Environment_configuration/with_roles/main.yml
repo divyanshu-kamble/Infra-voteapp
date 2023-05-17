@@ -17,12 +17,13 @@
 
       - name: Download MS product repository
         get_url:
-          url: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+          url: https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
           dest: /tmp/packages-microsoft-prod.deb
 
       - name: Install MS product repository
         apt: deb=/tmp/packages-microsoft-prod.deb
         become: true
+        update_cache: true
 
       # - name: Add Microsoft package repository
       #   apt_repository:
@@ -31,7 +32,7 @@
 
       - name: Install .NET SDK
         apt:
-         name: dotnet-sdk-5.0
+         name: dotnet-sdk-7.0
          state: present
          update_cache: true
 
