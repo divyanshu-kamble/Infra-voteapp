@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'Master'}
     parameters {
         string(name: 'instance_public_ip', description: 'Public IP address of the EC2 instance')
        // choice(name: 'ENVIRONMENT', choices: ['DEV', 'QA'])
@@ -8,57 +8,58 @@ pipeline {
         }
     environment {
         ENVIRONMENT = 'DEV'
+        AGENT = 'agent2'
     }
         stages {
-            stage('Checking inventory file') {
-                parallel {
-                    stage("Create a file") {
-                        when { expression { params.Inventory } }
-                        steps {
-                            script {
-                                def inventory = "myinventory\n"
-                                inventory += "[${ENVIRONMENT}]\n"
-                                inventory += "${instance_public_ip} ansible_user=ubuntu\n"
-                                writeFile file: "Ansible-script/inventory_files/${ENVIRONMENT}-inventory", text: inventory
-                            }
-                        }
-                    }
+            // stage('Checking inventory file') {
+            //     parallel {
+            //         stage("Create a file") {
+            //             when { expression { params.Inventory } }
+            //             steps {
+            //                 script {
+            //                     def inventory = "myinventory\n"
+            //                     inventory += "[${ENVIRONMENT}]\n"
+            //                     inventory += "${instance_public_ip} ansible_user=ubuntu\n"
+            //                     writeFile file: "Ansible-script/inventory_files/${ENVIRONMENT}-inventory", text: inventory
+            //                 }
+            //             }
+            //         }
 
-                        stage("Use Existing File") {
-                            when { expression { !params.Inventory } }
-                            steps {                       
-                               sh 'echo "Going forward with the file provided and not creating a new file."'                                
-                            }
-                        }
-                    }
-                }
+            //             stage("Use Existing File") {
+            //                 when { expression { !params.Inventory } }
+            //                 steps {                       
+            //                    sh 'echo "Going forward with the file provided and not creating a new file."'                                
+            //                 }
+            //             }
+            //         }
+            //     }
 
             stage('executing ansible script') {
                 
                 steps{
                     sh '''
                     cd Ansible-script/Dev/Environment_configuration/with_roles
-                    ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${ENVIRONMENT}" 
+                    ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${AGENT}" 
                     '''
                 }
             }
 
-            stage('Executing Git push') {
-                steps{
-                    withCredentials withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]){
-                        sh '''
+            // stage('Executing Git push') {
+            //     steps{
+            //         withCredentials withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]){
+            //             sh '''
 
-                        git commit -m 'push from jenkins'
-                        git pull origin YOUT-18-Individual-deployment-application
-                        git checkout YOUT-18-Individual-deployment-application
-                        git push origin YOUT-18-Individual-deployment-application
-                        '''
+            //             git commit -m 'push from jenkins'
+            //             git pull origin YOUT-18-Individual-deployment-application
+            //             git checkout YOUT-18-Individual-deployment-application
+            //             git push origin YOUT-18-Individual-deployment-application
+            //             '''
 
-                    }
+            //         }
 
-                }
+            //     }
                 
-            }
+            // }
     }
 }
 
