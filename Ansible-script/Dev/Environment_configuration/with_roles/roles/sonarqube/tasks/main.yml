@@ -11,7 +11,7 @@
    
    - name: copy file from source to target
      ansible.builtin.copy:
-      src: ./files/sonar.sh 
+      src: roles/sonarqube/files/sonar.sh 
       dest: /opt/ 
       owner: root
       group: root
