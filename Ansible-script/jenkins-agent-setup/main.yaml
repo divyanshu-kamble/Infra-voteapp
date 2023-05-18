@@ -2,7 +2,7 @@
 
 - name: Jenkins-agent configuration
   hosts: "{{ host_name }}"
-  become: true
+  #become: true
   vars_files: 
    - vars/vars.yaml 
   tasks:
