@@ -23,7 +23,8 @@
       - profile
 
    - name: Install node and set version
-     become: yes
+     become_user: '{{ username }}'
+     become: true
      shell: ". ~/.{{ item }}"
      args:
       executable: /bin/bash
@@ -32,8 +33,8 @@
        - profile
 
   #  - name: "nvm checking"
-  #    become: yes
-  #    become_user: root
+  #    become_user: '{{ username }}'
+  #    become: true
   #    shell: echo "PATH=$PATH:/home/{{ username }}/.nvm" > /etc/environment
   #    args:
   #      executable: /bin/bash

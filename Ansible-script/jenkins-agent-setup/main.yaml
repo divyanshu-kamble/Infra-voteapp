@@ -45,6 +45,8 @@
     - name: install nvm and node
       ansible.builtin.import_role:
        name: nvm-node
+      become_user: '{{ username }}'
+      become: true
       
 
   handlers:
