@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         ENVIRONMENT = 'JENKINS-AGENTS'
-        AGENT = 'ci'
+        AGENT = 'ci1'
     }
     stages {
         stage('Checking inventory file') {
@@ -15,7 +15,7 @@ pipeline {
                     when { expression { params.Inventory } }
                     steps {
                         sh '''
-                        
+
                             printf "\n[$AGENT]\n${instance_public_ip} ansible_user=ubuntu" >> ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory
                         '''
                     }
