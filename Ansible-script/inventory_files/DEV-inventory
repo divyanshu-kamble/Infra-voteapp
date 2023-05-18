@@ -1,5 +1,2 @@
-[DEV]
-3.215.153.114 ansible_user=ubuntu
-
-[agent2]
-3.221.160.75 ansible_user=ubuntu
+[DEV] 
+3.235.249.84 ansible_user=ubuntu

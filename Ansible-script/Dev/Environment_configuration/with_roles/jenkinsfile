@@ -7,8 +7,9 @@ pipeline {
         //string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
         }
     environment {
-        ENVIRONMENT = 'JENKINS-AGENTS'
-        AGENT = 'agent2'
+        ENVIRONMENT = 'DEV'
+        // AGENT = 'agent2'
+
     }
         stages {
             // stage('Checking inventory file') {
@@ -39,7 +40,7 @@ pipeline {
                 steps{
                     sh '''
                     cd Ansible-script/Dev/Environment_configuration/with_roles
-                    ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${AGENT}" 
+                    ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${ENVIRONMENT}" 
                     '''
                 }
             }
