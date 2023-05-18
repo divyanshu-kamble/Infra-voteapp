@@ -1,16 +1,11 @@
 --- 
   
    - name: "nvm"
-    #  become: yes
-    #  become_user: '{{ username }}'
-    #  become: true
      shell: >
       curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
      args:
       executable: /bin/bash
       chdir: "/home/"
-      # creates: "/home/{{ username }}/.nvm/nvm.sh"  
-
   
    - name: Source nvm in ~/.{{ item }}
      lineinfile: >
@@ -23,8 +18,6 @@
       - profile
 
    - name: Install node and set version
-    #  become_user: '{{ username }}'
-    #  become: true
      shell: ". ~/.{{ item }}"
      args:
       executable: /bin/bash
