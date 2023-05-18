@@ -6,33 +6,33 @@
   vars_files: 
    - vars/vars.yaml 
   tasks:
-    - name: create a user
-      ansible.builtin.import_role:
-       name: create-user
+    # - name: create a user
+    #   ansible.builtin.import_role:
+    #    name: create-user
 
-    - name: Give password authentication ssh 
-      ansible.builtin.import_role:
-       name: password-authentication
+    # - name: Give password authentication ssh 
+    #   ansible.builtin.import_role:
+    #    name: password-authentication
        
-    - name: install java 
-      ansible.builtin.import_role:
-       name: jdk-installation
+    # - name: install java 
+    #   ansible.builtin.import_role:
+    #    name: jdk-installation
 
-    - name: install Docker 
-      ansible.builtin.import_role:
-       name: docker-with-experimental-mode
+    # - name: install Docker 
+    #   ansible.builtin.import_role:
+    #    name: docker-with-experimental-mode
 
-    - name: install Python
-      ansible.builtin.import_role:
-       name: python-3
+    # - name: install Python
+    #   ansible.builtin.import_role:
+    #    name: python-3
 
-    - name: install sonar-scanner
-      ansible.builtin.import_role:
-       name: sonar-scanner
+    # - name: install sonar-scanner
+    #   ansible.builtin.import_role:
+    #    name: sonar-scanner
 
-    - name: install Dotnet
-      ansible.builtin.import_role:
-       name: dotnet
+    # - name: install Dotnet
+    #   ansible.builtin.import_role:
+    #    name: dotnet
 
     - name: install nvm and node
       ansible.builtin.import_role:
