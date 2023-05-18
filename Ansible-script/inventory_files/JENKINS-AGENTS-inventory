@@ -5,3 +5,5 @@
 3.239.187.8 ansible_user=ubuntu
 [ci]
 3.236.30.0 ansible_user=ubuntu
+[ci1]
+44.203.16.58 ansible_user=ubuntu
