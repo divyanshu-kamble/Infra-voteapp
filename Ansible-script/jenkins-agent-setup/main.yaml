@@ -6,6 +6,14 @@
   vars_files: 
    - vars/vars.yaml 
   tasks:
+  #ACLs are commonly used in scenarios where more nuanced access control is required,
+  # such as shared directories, multi-user environments, or when specific exceptions to default permissions 
+  #need to be implemented. 
+    - name: Install acl
+      apt: 
+        name: acl
+        state: present
+       
     # - name: create a user
     #   ansible.builtin.import_role:
     #    name: create-user

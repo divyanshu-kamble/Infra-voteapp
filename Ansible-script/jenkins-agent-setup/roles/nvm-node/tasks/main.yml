@@ -1,7 +1,7 @@
 --- 
-
+  
    - name: "nvm"
-    #  become: 
+    #  become: yes
      become_user: '{{ username }}'
      become: true
      shell: >
@@ -9,27 +9,27 @@
      args:
       executable: /bin/bash
       chdir: "/home/"
-      creates: "/home/{{ username }}/.nvm/nvm.sh"  
+      # creates: "/home/{{ username }}/.nvm/nvm.sh"  
 
   
-  #  - name: Source nvm in ~/.{{ item }}
-  #    lineinfile: >
-  #       dest=~/.{{ item }}
-  #       line=". ~/.nvm/nvm.sh"
-  #       create=yes
-  #    tags: nvm
-  #    with_items:
-  #     - bashrc
-  #     - profile
+   - name: Source nvm in ~/.{{ item }}
+     lineinfile: >
+        dest=~/.{{ item }}
+        line=". ~/.nvm/nvm.sh"
+        create=yes
+     tags: nvm
+     with_items:
+      - bashrc
+      - profile
 
-  #  - name: Install node and set version
-  #    become: yes
-  #    shell: ". ~/.{{ item }}"
-  #    args:
-  #     executable: /bin/bash
-  #    with_items:
-  #      - bashrc
-  #      - profile
+   - name: Install node and set version
+     become: yes
+     shell: ". ~/.{{ item }}"
+     args:
+      executable: /bin/bash
+     with_items:
+       - bashrc
+       - profile
 
   #  - name: "nvm checking"
   #    become: yes
