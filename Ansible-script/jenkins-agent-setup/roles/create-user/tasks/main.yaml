@@ -25,6 +25,15 @@
       home: /home/{{ username }}
       state: present
 
+   - name: Add user to sudoers file
+     lineinfile:
+        path: /etc/sudoers
+        regexp: ^%admin ALL=\(ALL\) ALL$
+        insertafter: ^%admin ALL=\(ALL\) ALL$
+        line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+        state: present
+        
    - name: Create dir for jenkins and give user permission
      ansible.builtin.file:
       path: /opt/jenkins/

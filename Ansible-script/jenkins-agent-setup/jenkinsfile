@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         ENVIRONMENT = 'JENKINS-AGENTS'
-        AGENT = 'agent2'
+        AGENT = 'ci'
     }
     stages {
         stage('Checking inventory file') {
