@@ -12,7 +12,7 @@
 
     - name: Give password authentication ssh 
       ansible.builtin.import_role:
-       name: password-authentication 
+       name: password-authentication
        
     - name: install java 
       ansible.builtin.import_role:

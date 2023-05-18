@@ -22,7 +22,6 @@
 
    - name: Install node and set version
      become: yes
-     become_user: "{{ username }}"
      shell: ". ~/.{{ item }}"
      args:
       executable: /bin/bash
@@ -39,7 +38,6 @@
 
    - name: Test NVM and check/install node ver 18.0
      become: yes
-     become_user: "{{ username }}"
      shell: |
        . /home/{{ username }}/.nvm/nvm.sh && nvm -v || true
        nvm install 18.0.0 || true
