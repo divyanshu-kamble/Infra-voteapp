@@ -40,22 +40,22 @@ output "security_group_id" {
   value = data.aws_security_groups.test.ids
 }
 
-# resource "aws_security_group_rule" "public_out1" {
+resource "aws_security_group_rule" "public_out1" {
 
-#   type        = "ingress"
+  type        = "ingress"
 
-#   from_port   = 5000
+  from_port   = 9000
 
-#   to_port     = 5000
+  to_port     = 9000
 
-#   protocol    = "tcp"
+  protocol    = "tcp"
 
-#   cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks = ["0.0.0.0/0"]
 
-#   security_group_id = element(tolist(data.aws_security_groups.test.ids), 0)
+  security_group_id = element(tolist(data.aws_security_groups.test.ids), 0)
   
 
-# }
+}
 
 # resource "aws_security_group_rule" "result1" {
 
