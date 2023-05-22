@@ -35,7 +35,7 @@ pipeline {
             steps {
                 sh '''
                     cd Ansible-script/jenkins-agent-setup/
-                    ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${LABEL}" -vvv
+                    ansible-playbook main.yaml -i ${WORKSPACE}/Ansible-script/inventory_files/${LABEL}-inventory -e "host_name=${LABEL}" -vvv
                 '''
             }
         }
