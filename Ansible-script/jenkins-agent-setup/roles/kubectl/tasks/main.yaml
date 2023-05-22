@@ -37,6 +37,7 @@
     success_msg: "{{ result.stdout }}"
 
 - name: Move kubectl and change permissions
+  become_user: root
   file:
     src: /home/{{ username }}/
     dest: /usr/local/bin/kubectl
