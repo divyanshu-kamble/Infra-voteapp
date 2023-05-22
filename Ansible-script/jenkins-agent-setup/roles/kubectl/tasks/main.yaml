@@ -1,3 +1,4 @@
+
 - name: Get latest kubectl version
   uri:
     url: https://dl.k8s.io/release/stable.txt
@@ -33,16 +34,16 @@
     fail_msg: "{{ result.stdout }}"
     success_msg: "{{ result.stdout }}"
 
-- name: Move kubectl and change permissions
-  file:
-  src: /home/{{ username }}/
-  dest: /usr/local/bin/kubectl
-  state: hard
-  owner: root
-  group: root
-  mode: "+x"
+# - name: Move kubectl and change permissions
+#   file:
+#   src: /home/{{ username }}/
+#   dest: /usr/local/bin/kubectl
+#   state: hard
+#   owner: root
+#   group: root
+#   mode: "+x"
 
-- name: Check if kubectl is installed
-  shell: kubectl version --client
-  register: client
-  failed_when: client.rc > 1
+# - name: Check if kubectl is installed
+#   shell: kubectl version --client
+#   register: client
+#   failed_when: client.rc > 1
