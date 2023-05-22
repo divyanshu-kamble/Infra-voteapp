@@ -41,8 +41,8 @@
   file:
     src: /home/{{ username }}/
     dest: /usr/local/bin/
-    state: file
-    mode: "+x"
+    state: hard
+    mode: '0700'
 
 - name: Check if kubectl is installed
   shell: kubectl version --client
