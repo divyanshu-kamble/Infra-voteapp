@@ -40,7 +40,7 @@
   become_user: root
   file:
     src: /home/{{ username }}/
-    dest: /usr/local/bin/kubectl
+    dest: /usr/local/bin/
     state: hard
     mode: "+x"
 
