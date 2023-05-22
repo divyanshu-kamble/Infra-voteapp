@@ -5,7 +5,8 @@ pipeline {
         booleanParam(name: "Inventory", defaultValue: false)
     }
     environment {
-        ENVIRONMENT = 'DEV-KUBE'
+        // ENVIRONMENT = 'DEV'
+        LABEL = 'Deploy'
     }
     stages {
         stage('Checking inventory file') {
@@ -14,10 +15,10 @@ pipeline {
                     when { expression { params.Inventory } }
                     steps {
                         sh '''
-                            if sed -n "/${ENVIRONMENT}/p" "${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory"; then
-                               printf "\n${instance_public_ip} ansible_user=ubuntu" >> ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory
+                            if sed -n "/${LABEL}/p" "${WORKSPACE}/Ansible-script/inventory_files/${LABEL}-inventory"; then
+                               printf "\n${instance_public_ip} ansible_user=ubuntu" >> ${WORKSPACE}/Ansible-script/inventory_files/${LABEL}-inventory
                             else
-                                printf "\n[$ENVIRONMENT]\n${instance_public_ip} ansible_user=ubuntu" >> ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory
+                                printf "\n[$LABEL]\n${instance_public_ip} ansible_user=ubuntu" >> ${WORKSPACE}/Ansible-script/inventory_files/${LABEL}-inventory
                             fi
                         '''
                     }
