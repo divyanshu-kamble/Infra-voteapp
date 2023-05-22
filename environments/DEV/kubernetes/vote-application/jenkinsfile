@@ -1,0 +1,29 @@
+pipeline {
+    agent {
+    label 'Deploy'
+}
+
+    // define environment variable ENVIRONMENT
+    
+    stages {
+        stage('Deploying pods') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
+                sh '''
+                    kubectl create -f deployment.yaml 
+                    
+                '''
+            }
+        }
+    }
+        stage('Creating Service for pods') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
+                sh '''
+                    kubectl create -f service.yaml
+                '''
+            }
+        }
+    }
+}
+}
