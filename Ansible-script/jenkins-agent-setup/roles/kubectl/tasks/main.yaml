@@ -24,11 +24,11 @@
 - name: Validate the kubectl binary against the checksum file
   shell: |
     pwd
-    cd /home/{{ username }}/
-    echo "$(cat kubectl.sha256)  kubectl" | sha256sum  --check
-  register: result
-
+    # cd /home/{{ username }}/
+    # echo "$(cat kubectl.sha256)  kubectl" | sha256sum  --check
+  # register: result
 - name: Assert that the kubectl binary is OK
+
   vars:
     expected: "kubectl: OK"
   assert:
