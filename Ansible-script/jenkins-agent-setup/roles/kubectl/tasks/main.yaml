@@ -38,12 +38,12 @@
 
 - name: Move kubectl and change permissions
   file:
-  src: /home/{{ username }}/
-  dest: /usr/local/bin/kubectl
-  state: hard
-  owner: root
-  group: root
-  mode: "+x"
+    src: /home/{{ username }}/
+    dest: /usr/local/bin/kubectl
+    state: hard
+    owner: root
+    group: root
+    mode: "+x"
 
 - name: Check if kubectl is installed
   shell: kubectl version --client
