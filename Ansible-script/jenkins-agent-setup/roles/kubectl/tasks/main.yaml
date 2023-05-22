@@ -39,12 +39,16 @@
 - name: Move kubectl and change permissions
   become_user: root
   file:
-    src: /home/{{ username }}/
-    dest: /usr/local/bin/
-    state: link
+    src: /home/{{ username }}/kubectl
+    dest: /usr/local/bin/kubectl
+    state: hard
     mode: '0700'
+#   ansible.builtin.copy:
+#   src: /srv/myfiles/foo.conf
+#   dest: /etc/foo.conf
 
 - name: Check if kubectl is installed
+  # - name: Copy to local dir
   shell: kubectl version --client
   register: client
   failed_when: client.rc > 1
