@@ -7,18 +7,18 @@
 
 - name: Download the latest kubectl release
   uri:
-    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/arm/kubectl
+    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/amd64/kubectl
     dest: /home/{{ username }}
   register: kubectl
 
 - name: Download the kubectl checksum file
   uri:
-    url: https://dl.k8s.io/{{ version.content }}/bin/linux/arm/kubectl.sha256
+    url: https://dl.k8s.io/{{ version.content }}/bin/linux/amd64/kubectl.sha256
     dest: /home/{{ username }}
 
 - name: Download the kubectl checksum file
   uri:
-    url: https://dl.k8s.io/{{ version.content }}/bin/linux/arm/kubectl.sha256
+    url: https://dl.k8s.io/{{ version.content }}/bin/linux/amd64/kubectl.sha256
     dest: /home/{{ username }}
 
 - name: Validate the kubectl binary against the checksum file
@@ -42,8 +42,6 @@
     src: /home/{{ username }}/
     dest: /usr/local/bin/kubectl
     state: hard
-    owner: root
-    group: root
     mode: "+x"
 
 - name: Check if kubectl is installed
