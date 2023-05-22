@@ -1,0 +1,26 @@
+---
+   - name: Installing unzip
+     apt: 
+        name: "{{ item }}"
+        state: present
+     with_items: 
+      - unzip
+
+   - name: Installing java
+     apt: 
+      name: default-jre
+      state: present
+      update_cache: yes
+
+   # - name: Set the JAVA_HOME in /etc/profile file
+   #   lineinfile:
+   #      path: /etc/profile
+   #      state: present
+   #      line: "{{ item }}"
+   #   with_items:
+   #      - 'export JAVA_HOME="/opt/jdk-18.0.2.1"'
+   #      - 'export PATH=$PATH:$JAVA_HOME/bin'
+
+   # - name: Reload /etc/profile file
+   #   shell:
+   #      cmd: ~/etc/profile

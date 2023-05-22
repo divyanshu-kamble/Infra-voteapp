@@ -1,0 +1,14 @@
+---
+    - name: Give password authentication via ssh
+      become: yes
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        # The String to Search
+        regexp: '^PasswordAuthentication no$'
+        # The String to Replace
+        line: "PasswordAuthentication yes"
+        state: present
+        backup: yes
+      notify: restart ssh
+
+
