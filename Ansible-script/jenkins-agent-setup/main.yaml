@@ -1,58 +1,63 @@
----
 
 - name: Jenkins-agent configuration
   hosts: "{{ host_name }}"
   become: true
-  vars_files: 
-   - vars/vars.yaml 
+  vars_files:
+  - vars/vars.yaml
   tasks:
   #ACLs are commonly used in scenarios where more nuanced access control is required,
   # such as shared directories, multi-user environments, or when specific exceptions to default permissions 
   #need to be implemented. 
-    - name: Install acl
-      apt: 
-        name: acl
-        state: present
-       
-    - name: create a user
-      ansible.builtin.import_role:
-       name: create-user
+  - name: Install acl
+    apt:
+      name: acl
+      state: present
 
-    - name: Give password authentication ssh 
-      ansible.builtin.import_role:
-       name: password-authentication
-       
-    - name: install java 
-      ansible.builtin.import_role:
-       name: jdk-installation
+  - name: create a user
+    ansible.builtin.import_role:
+      name: create-user
 
-    - name: install Docker 
-      ansible.builtin.import_role:
-       name: docker-with-experimental-mode
+  - name: Give password authentication ssh
+    ansible.builtin.import_role:
+      name: password-authentication
 
-    - name: install Python
-      ansible.builtin.import_role:
-       name: python-3
+  - name: install java
+    ansible.builtin.import_role:
+      name: jdk-installation
 
-    - name: install sonar-scanner
-      ansible.builtin.import_role:
-       name: sonar-scanner
+  - name: install Docker
+    ansible.builtin.import_role:
+      name: docker-with-experimental-mode
 
-    - name: install Dotnet
-      ansible.builtin.import_role:
-       name: dotnet
+  - name: install kubectl
+    ansible.builtin.import_role:
+      name: kubectl
+    become_user: '{{ username }}'
+    become: true
 
-    - name: install nvm and node
-      ansible.builtin.import_role:
-       name: nvm-node
-      become_user: '{{ username }}'
-      become: true
-      
+  # - name: install Python
+  #   ansible.builtin.import_role:
+  #    name: python-3
+
+  # - name: install sonar-scanner
+  #   ansible.builtin.import_role:
+  #    name: sonar-scanner
+
+  # - name: install Dotnet
+  #   ansible.builtin.import_role:
+  #    name: dotnet
+
+  # - name: install nvm and node
+  #   ansible.builtin.import_role:
+  #    name: nvm-node
+  #   become_user: '{{ username }}'
+  #   become: true
+
 
   handlers:
-    - name: restart ssh
-      service:
-        name: sshd 
-        state: restarted
+  - name: restart ssh
+    service:
+      name: sshd
+      state: restarted
 
-        
+
