@@ -1,0 +1,4 @@
+
+[Deploy]
+3.92.8.239 ansible_user=ubuntu
+
