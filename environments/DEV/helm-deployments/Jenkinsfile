@@ -5,8 +5,8 @@ pipeline {
       steps {
         sh '''
             alias k=kubectl
-            k create namespace dev
-            k create namespace prod
+            k create namespace dev-voting
+            k create namespace prod-voting
         '''
       }
     }
