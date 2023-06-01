@@ -55,12 +55,12 @@ service:
     type: NodePort
     port: 80
     targetPort: 80
-    nodePort: 30000
+    nodePort: 30002
     name: vote-service
 
   result_app:
     type: NodePort
-    nodePort: 30001
+    nodePort: 30003
     port: 80
     targetPort: 80
     name: result-service
