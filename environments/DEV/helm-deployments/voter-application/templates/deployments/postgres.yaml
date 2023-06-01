@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
  name: {{ .Values.deploy.postgres_app.image.appName }}
-  labels:
+ labels:
     tags: {{ .Values.tags }}
     app: {{ .Values.deploy.postgres_app.image.appName }}
 spec:
