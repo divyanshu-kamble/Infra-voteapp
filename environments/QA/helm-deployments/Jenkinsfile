@@ -1,9 +1,9 @@
 pipeline {
   agent { label 'Deploy'}
   parameters {
-        string(name: 'vote_app_tag', defaultValue: 'latest')
-        string(name: 'result_app_tag', defaultValue: 'latest')
-        string(name: 'worker_app_tag', defaultValue: 'latest') }
+        string(name: 'vote_app_tag')
+        string(name: 'result_app_tag')
+        string(name: 'worker_app_tag') }
   environment {
         NAMESPACE = 'qa'
     }
