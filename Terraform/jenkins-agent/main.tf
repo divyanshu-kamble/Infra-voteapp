@@ -27,3 +27,20 @@ resource "aws_instance" "jenkins-agent" {
 output "instance_public_ip" {
   value = aws_instance.jenkins-agent.public_ip
 }
+
+resource "aws_security_group_rule" "public_out1" {
+
+  type        = "ingress"
+
+  from_port   = 5000
+
+  to_port     = 5000
+
+  protocol    = "tcp"
+
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_group_id = element(tolist(data.aws_security_groups.test.ids), 0)
+  
+
+}
