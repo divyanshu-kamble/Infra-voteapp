@@ -10,7 +10,7 @@ spec:
   ports:
   - port: {{ .Values.service.vote_app.port }}
     targetPort: {{ .Values.service.vote_app.targetPort }}
-    nodePort: {{ .Values.service.vote_app.nodePort}}
+#   nodePort: {{ .Values.service.vote_app.nodePort}}
 
   selector:
     app: {{ .Values.deploy.vote_app.image.appName }}

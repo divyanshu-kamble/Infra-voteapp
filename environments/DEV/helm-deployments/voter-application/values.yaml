@@ -21,7 +21,7 @@ deploy:
   worker_app:
     image:
       repository: divyanshuk/worker
-      imageTag: 57
+      imageTag: latest
       pullPolicy: IfNotPresent
       appName: worker-app
       imageName: worker
@@ -52,15 +52,13 @@ deploy:
 
 service:
   vote_app:
-    type: NodePort
+    type: ClusterIP
     port: 80
     targetPort: 80
-    nodePort: 30002
     name: vote-service
 
   result_app:
-    type: NodePort
-    nodePort: 30003
+    type: ClusterIP
     port: 80
     targetPort: 80
     name: result-service
