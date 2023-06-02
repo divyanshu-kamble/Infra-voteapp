@@ -28,6 +28,13 @@ output "instance_public_ip" {
   value = aws_instance.jenkins-agent.public_ip
 }
 
+data "aws_security_groups" "test" {
+
+  tags = {
+    Name = "tf-deploy"
+  }
+}
+
 resource "aws_security_group_rule" "public_out1" {
 
   type        = "ingress"
