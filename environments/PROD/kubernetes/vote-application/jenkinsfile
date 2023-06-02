@@ -10,8 +10,17 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
                 sh '''
-                    kubectl apply -f kubernetes 
+                    kubectl create -f deployment.yaml 
                     
+                '''
+            }
+        }
+    }
+        stage('Creating Service for pods') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'password', usernameVariable: 'username')]) {
+                sh '''
+                    kubectl create -f service.yaml
                 '''
             }
         }

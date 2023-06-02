@@ -1,0 +1,26 @@
+---
+
+- name: Application Deployment
+  hosts: '{{ ENVIRONMENT }}'
+  become: true
+  tasks:
+    - name: Log into DockerHub
+      docker_login:
+        username: "{{ username }}"
+        password: "{{ password }}"
+
+    - name: Copying Script
+      copy: src=./files/script.sh dest=/home/ubuntu/dev_env/application/{{ APPNAME }}/ mode=0777
+
+    - name: Running Shell Script
+      shell: /home/ubuntu/dev_env/application/{{ APPNAME }}/script.sh {{ APPNAME }} {{ TAG }}
+
+    # - name: Check vote Application
+    #   shell: |
+    #     echo "The container is already present and is in running state"
+    #   when: docker ps -a --filter "ancestor={{ app_name }}:{{ build_version }}" --filter "status=running"
+   
+    # - name: Run vote Application
+    #   shell: |
+    #     docker start {{ app_name }}:{{ build_version }}
+    #   when: docker ps -a --filter "ancestor={{ app_name }}:{{ build_version }}" --filter "status=exited"
