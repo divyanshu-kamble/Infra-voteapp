@@ -1,18 +1,19 @@
 pipeline {
   agent { label 'Deploy'}
   environment {
-        Env = 'dev'
+        NAMESPACE = 'dev'
     }
   stages {
     stage('Checking inventory file') {
       steps {
         sh '''
           alias k=kubectl
-          if [ -z "k get namespace | grep ${Env}-voting-app" ]
+          value = k get namespace | grep ${NAMESPACE}-voting-app
+          if [ -z "$value" ]
           then
-            k create namespace ${Env}-voting-app
+            k create namespace ${NAMESPACE}-voting-app
           else
-            echo "namespace ${Env}-voting-app exist"
+            echo "namespace ${NAMESPACE}-voting-app exist"
           fi
         '''
       }
@@ -20,7 +21,7 @@ pipeline {
     stage('Helm Deployment') {
       steps {
         sh '''
-           helm upgrade --install voting-app voting-application/ --atomic --values voting-application/values.yaml --set deploy.vote_app.image.imageTag=83 --set deploy.result_app.image.imageTag=17 --namespace dev-voting
+           helm upgrade --install voting-app voting-application/ --atomic --values voting-application/values.yaml --set deploy.vote_app.image.imageTag=83 --set deploy.result_app.image.imageTag=17 --namespace ${NAMESPACE}-voting-app
         '''
       }
     }
