@@ -1,5 +1,9 @@
 pipeline {
   agent { label 'Deploy'}
+  parameters {
+        string(name: 'vote-app-tag', defaultValue: 'latest')
+        string(name: 'result-app-tag', defaultValue: 'latest')
+        string(name: 'worker-app-tag', defaultValue: 'latest') }
   environment {
         NAMESPACE = 'qa'
     }
@@ -20,7 +24,7 @@ pipeline {
     stage('Helm Deployment') {
       steps {
         sh '''
-           helm upgrade --install voting-app ${WORKSPACE}/environments/QA/helm-deployments/voting-application/ --atomic --values ${WORKSPACE}/environments/QA/helm-deployments/voting-application/values.yaml --set deploy.vote_app.image.imageTag=83 --set deploy.result_app.image.imageTag=17 --namespace ${NAMESPACE}-voting-app
+           helm upgrade --install voting-app ${WORKSPACE}/environments/QA/helm-deployments/voting-application/ --atomic --values ${WORKSPACE}/environments/QA/helm-deployments/voting-application/values.yaml --set deploy.vote_app.image.imageTag=${vote-app-tag} --set deploy.result_app.image.imageTag=${result-app-tag} --set deploy.worker_app.image.imageTag=${worker-app-tag} --namespace ${NAMESPACE}-voting-app
         '''
       }
     }
