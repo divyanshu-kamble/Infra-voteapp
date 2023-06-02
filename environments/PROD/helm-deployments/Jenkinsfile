@@ -4,7 +4,7 @@ pipeline {
         NAMESPACE = 'prod'
     }
   stages {
-    stage('Checking inventory file') {
+    stage('Checking namespace') {
       steps {
         sh '''
           alias k=kubectl 
