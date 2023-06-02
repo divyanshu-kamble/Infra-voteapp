@@ -7,13 +7,12 @@ pipeline {
     stage('Checking inventory file') {
       steps {
         sh '''
-          alias k=kubectl
-          value = k get namespace | grep ${NAMESPACE}-voting-app
-          if [ -z "$value" ]
-          then
-            k create namespace ${NAMESPACE}-voting-app
+          alias k=kubectl 
+          value=$(k get namespace | grep ${NAMESPACE}-voting-app)
+          if [ -z "$value" ]; then
+          k create namespace ${NAMESPACE}-voting-app
           else
-            echo "namespace ${NAMESPACE}-voting-app exist"
+          echo "namespace ${NAMESPACE}-voting-app exists"
           fi
         '''
       }
