@@ -1,0 +1,76 @@
+pipeline {
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yaml '''
+    apiVersion: v1
+    kind: Pod
+    metadata:
+        namespace: jenkins-testing
+        name: sample-kube
+    spec:
+      containers:
+      - name: dind
+        image: docker:24-dind
+        volumeMounts:
+        - mountPath: /var/build-data/
+          name: jenkins-bld
+        securityContext:
+            privileged: true
+      volumes:
+      - name: jenkins-bld
+        persistentVolumeClaim:
+          claimName: jenkins-build
+'''
+        }
+}
+        stages {
+            stage('Terraform init') {
+                steps {
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')])
+                    {
+                    container('dind') {
+                        sh '''
+                        cd Terraform/jenkins-agent/
+                        terraform init
+                        '''
+                    }
+                }
+            }
+            }
+            stage('Terraform Plan') {
+                steps {
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')])
+                    {
+                    container('dind') {
+                        sh '''
+                        cd Terraform/jenkins-agent/
+                        terraform plan
+                        '''
+                    }
+                }
+            }
+            stage('Terraform Apply') {
+                steps {
+                    container('dind') {
+                        sh '''
+                        cd Terraform/jenkins-agent/
+                        terraform apply
+                        '''
+                        dir('Terraform/jenkins-agent/'){
+                            script{
+                                env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+                            }
+                        sh "echo ${INSTANCE_IP}"
+                        }
+                    }
+                }
+            }
+            stage('output IP Address'){
+                steps{
+                    sh 'echo ${INSTANCE_IP}'
+                }
+            }
+        }
+    }
+}
