@@ -56,7 +56,7 @@ pipeline {
                     container('ansible') {
                         sh '''
                         cd Ansible-script/Dev/Environment_configuration/with_roles
-                        ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${ENVIRONMENT}" 
+                        ansible-playbook--connection=local --inventory 127.0.0.1 main.yml -e "host_name=${ENVIRONMENT}"
                         '''
                     }
                 }
