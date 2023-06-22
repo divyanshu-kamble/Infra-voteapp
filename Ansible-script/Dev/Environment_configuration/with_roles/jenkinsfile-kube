@@ -19,7 +19,7 @@ pipeline {
             privileged: true
 
       - name: ansible
-        image: willhallonline/ansible:latest
+        image: willhallonline/ansible:2.9.27-bullseye-slim
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
         volumeMounts:
