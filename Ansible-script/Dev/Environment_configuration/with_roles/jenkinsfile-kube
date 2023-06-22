@@ -1,0 +1,65 @@
+pipeline {
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yaml '''
+    apiVersion: v1
+    kind: Pod
+    metadata:
+        namespace: jenkins-testing
+        name: sample-kube
+    spec:
+      containers:
+      - name: dind
+        image: docker:24-dind
+        volumeMounts:
+        - mountPath: /var/build-data/
+          name: jenkins-bld
+        securityContext:
+            privileged: true
+
+      - name: ansible
+        image: willhallonline/ansible:latest
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+        volumeMounts:
+        - mountPath: /var/build-data/
+          name: jenkins-bld
+        securityContext:
+            privileged: true
+      volumes:
+      - name: jenkins-bld
+        persistentVolumeClaim:
+          claimName: jenkins-build
+'''
+        }
+    }
+    parameters {
+        string(name: 'instance_public_ip', description: 'Public IP address of the EC2 instance')
+        // choice(name: 'ENVIRONMENT', choices: ['DEV', 'QA'])
+        booleanParam(name: "Inventory", defaultValue: false)
+    //string(name: 'Hostname', defaultValue: 'Dev', description: 'Hostname for the ansible inventory file')
+    }
+    environment {
+        ENVIRONMENT = 'localhost'
+    }
+        stages {
+            stage('ansible script execute') {
+                steps {
+                    sh '''
+                    echo "hello from outside"
+                    '''
+                }
+            }
+            stage('ansible script execute') {
+                steps {
+                    container('ansible') {
+                        sh '''
+                        cd Ansible-script/Dev/Environment_configuration/with_roles
+                        ansible-playbook main.yml -i ${WORKSPACE}/Ansible-script/inventory_files/${ENVIRONMENT}-inventory -e "host_name=${ENVIRONMENT}" 
+                        '''
+                    }
+                }
+            }
+        }
+}
