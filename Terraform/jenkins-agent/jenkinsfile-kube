@@ -27,12 +27,13 @@ pipeline {
         stages {
             stage('Terraform init') {
                 steps {
-                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')])
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'aws')])
                     {
                     container('dind') {
                         sh '''
+                        pwd
                         cd Terraform/jenkins-agent/
-                        docker run -d hashicorp/terraform:latest init
+                        docker run -v ${PWD}:/Terraform/jenkins-agent/ -w /Terraform/jenkins-agent/ hashicorp/terraform:latest init
                         '''
                     }
                 }
@@ -40,37 +41,37 @@ pipeline {
         }
             stage('Terraform Plan') {
                 steps {
-                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'AWS-1')])
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'aws')])
                     {
                     container('dind') {
                         sh '''
                         cd Terraform/jenkins-agent/
-                        terraform plan
+                        docker run -v ${PWD}:/Terraform/jenkins-agent/ -w /Terraform/jenkins-agent/ hashicorp/terraform:latest plan
                         '''
                     }
                 }
             }
             }
-            stage('Terraform Apply') {
-                steps {
-                    container('dind') {
-                        sh '''
-                        cd Terraform/jenkins-agent/
-                        docker run -d hashicorp/terraform:latest terraform apply
-                        '''
-                        dir('Terraform/jenkins-agent/'){
-                            script{
-                                env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
-                            }
-                        sh "echo ${INSTANCE_IP}"
-                        }
-                    }
-                }
-            }
-            stage('output IP Address'){
-                steps{
-                    sh 'echo ${INSTANCE_IP}'
-                }
-            }
+            // stage('Terraform Apply') {
+            //     steps {
+            //         container('dind') {
+            //             sh '''
+            //             cd Terraform/jenkins-agent/
+            //             docker run -d hashicorp/terraform:latest terraform apply
+            //             '''
+            //             dir('Terraform/jenkins-agent/'){
+            //                 script{
+            //                     env.INSTANCE_IP = sh(script: 'terraform output -raw instance_public_ip', returnStdout: true).trim()
+            //                 }
+            //             sh "echo ${INSTANCE_IP}"
+            //             }
+            //         }
+            //     }
+            // }
+            // stage('output IP Address'){
+            //     steps{
+            //         sh 'echo ${INSTANCE_IP}'
+            //     }
+            // }
         }
     }
