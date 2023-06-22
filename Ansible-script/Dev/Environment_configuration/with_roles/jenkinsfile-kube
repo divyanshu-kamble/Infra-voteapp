@@ -44,7 +44,7 @@ pipeline {
         ENVIRONMENT = 'localhost'
     }
         stages {
-            stage('ansible script execute') {
+            stage('sample script') {
                 steps {
                     sh '''
                     echo "hello from outside"
@@ -62,4 +62,4 @@ pipeline {
                 }
             }
         }
-}
+    }
